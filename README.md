@@ -1,13 +1,3 @@
-# [Skateshop13](https://skateshop.sadmn.com/)
-
-This is an open source e-commerce skateshop build with everything new in Next.js 13. It is bootstrapped with `create-t3-app`.
-
-[![Skateshop13](./public/images/screenshot/landing-page-screenshot.png)](https://skateshop.sadmn.com/)
-
-> **Warning**
-> This project is still in development and is not ready for production use.
->
-> It uses new technologies (server actions, drizzle ORM) which are subject to change and may break your application.
 
 ## Tech Stack
 
@@ -70,32 +60,3 @@ pnpm run db:push
 ```bash
 pnpm run stripe:listen
 ```
-
-## How do I deploy this?
-
-Follow the deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-
-## License
-
-Licensed under the MIT License. Check the [LICENSE](./LICENSE) file for details.
-
-## Contributing
-
-Contributions are welcome! Please open an issue if you have any questions or suggestions. Your contributions will be acknowledged.
-
-See the [contributing guide](./CONTRIBUTING.md) for more information.
-
-## Contributors
-
-Thanks goes to these wonderful people for their contributions:
-
-<p align="center">
- <a href="https://github.com/sadmann7/skateshop/graphs/contributors">
-   <img src="https://contrib.rocks/image?repo=sadmann7/skateshop" />
- </a>
-</p>
-
-<p align="center">
- Made with <a rel="noopener noreferrer" target="_blank" href="https://contrib.rocks">contrib.rocks</a>
-</p>
-# POD-platform
