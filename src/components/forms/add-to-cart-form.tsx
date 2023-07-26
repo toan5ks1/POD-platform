@@ -95,14 +95,14 @@ export function AddToCartForm({ productId }: AddToCartFromProps) {
         </Button>
         <Link
           aria-label="Preview product"
-          href={`/product-editor/${productId}`}
+          href={`/design/${productId}`}
           className={buttonVariants({
             variant: "outline",
             size: "sm",
             className: "h-8 w-full rounded-sm",
           })}
         >
-          Preview
+          Start designing
         </Link>
       </form>
     </Form>
