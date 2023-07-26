@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -8,7 +9,7 @@ import type { z } from "zod"
 
 import { catchError } from "@/lib/utils"
 import { updateCartItemSchema } from "@/lib/validations/cart"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -92,6 +93,17 @@ export function AddToCartForm({ productId }: AddToCartFromProps) {
           Add to cart
           <span className="sr-only">Add to cart</span>
         </Button>
+        <Link
+          aria-label="Preview product"
+          href={`/product-editor/${productId}`}
+          className={buttonVariants({
+            variant: "outline",
+            size: "sm",
+            className: "h-8 w-full rounded-sm",
+          })}
+        >
+          Preview
+        </Link>
       </form>
     </Form>
   )
