@@ -1,12 +1,7 @@
-import Image from "next/image"
-import Link from "next/link"
 import { redirect } from "next/navigation"
 import { currentUser } from "@clerk/nextjs"
 
 import { dashboardConfig } from "@/config/dashboard"
-import { siteConfig } from "@/config/site"
-import { AspectRatio } from "@/components/ui/aspect-ratio"
-import { Icons } from "@/components/icons"
 import { SidebarNav } from "@/components/layouts/sidebar-nav"
 import { SiteHeader } from "@/components/layouts/site-header"
 
@@ -22,13 +17,14 @@ export default async function DashboardLayout({
   if (!user) {
     redirect("/signin")
   }
+  console.log("triggered")
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-screen flex-col">
       <SiteHeader user={user} />
-      <div className="flex flex-row">
-        <main className="flex-auto justify-self-center">{children}</main>
-        <aside className="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] basis-1/4 border-l pl-4 pt-8 md:sticky md:block">
+      <div className="flex h-full flex-row">
+        <main className="flex-auto justify-center">{children}</main>
+        <aside className="fixed z-30 hidden basis-1/4 border-l px-4 py-8 md:sticky md:block">
           <SidebarNav items={dashboardConfig.sidebarNav} />
         </aside>
       </div>
