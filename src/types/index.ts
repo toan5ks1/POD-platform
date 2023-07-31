@@ -94,3 +94,23 @@ export type SubscriptionPlan = {
   price: number
   isCanceled?: boolean
 }
+
+export enum Colors {
+  "White" = "#FFFFFF",
+  "Multicolor" = "#FFFFFF",
+  "Lightgrey" = "#FFFFFF",
+  "Grey" = "#FFFFFF",
+  "Black" = "#FFFFFF",
+  "Red" = "#FFFFFF",
+  "Blue" = "#FFFFFF",
+  "Pink" = "#FFFFFF",
+}
+
+export enum Sizes {
+  "S",
+  "M",
+  "L",
+  "XL",
+  "2XL",
+  "3XL",
+}

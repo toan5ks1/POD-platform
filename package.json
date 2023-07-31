@@ -10,6 +10,7 @@
     "lint:fix": "next lint --fix",
     "postinstall": "drizzle-kit generate:mysql",
     "db:push": "drizzle-kit push:mysql",
+    "db:pull": "drizzle-kit introspect:mysql",
     "db:introspect": "drizzle-kit introspect:mysql",
     "db:studio": "drizzle-kit studio",
     "shadcn:add": "pnpm dlx shadcn-ui@latest add",
