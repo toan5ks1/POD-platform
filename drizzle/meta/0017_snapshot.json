@@ -1,0 +1,927 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "94dcd83c-e213-4cb0-95ce-394fc2cd7171",
+  "prevId": "e05c0a00-c5e1-4498-a1db-72fe07421501",
+  "tables": {
+    "addresses": {
+      "name": "addresses",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "line1": {
+          "name": "line1",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "line2": {
+          "name": "line2",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "city": {
+          "name": "city",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "state": {
+          "name": "state",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "postalCode": {
+          "name": "postalCode",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "country": {
+          "name": "country",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "addresses_id": {
+          "name": "addresses_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "admin": {
+      "name": "admin",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "username": {
+          "name": "username",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "admin_id": {
+          "name": "admin_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "id": {
+          "name": "id",
+          "columns": [
+            "id"
+          ]
+        }
+      }
+    },
+    "carts": {
+      "name": "carts",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "paymentIntentId": {
+          "name": "paymentIntentId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "clientSecret": {
+          "name": "clientSecret",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "items": {
+          "name": "items",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "carts_id": {
+          "name": "carts_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "email_preferences": {
+      "name": "email_preferences",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token": {
+          "name": "token",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "newsletter": {
+          "name": "newsletter",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "marketing": {
+          "name": "marketing",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "transactional": {
+          "name": "transactional",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "email_preferences_id": {
+          "name": "email_preferences_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "migrations": {
+      "name": "migrations",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "migration": {
+          "name": "migration",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "batch": {
+          "name": "batch",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "migrations_id": {
+          "name": "migrations_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {
+        "id": {
+          "name": "id",
+          "columns": [
+            "id"
+          ]
+        }
+      }
+    },
+    "orders": {
+      "name": "orders",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "storeId": {
+          "name": "storeId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "items": {
+          "name": "items",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "total": {
+          "name": "total",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'0'"
+        },
+        "stripePaymentIntentId": {
+          "name": "stripePaymentIntentId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripePaymentIntentStatus": {
+          "name": "stripePaymentIntentStatus",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "addressId": {
+          "name": "addressId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "orders_id": {
+          "name": "orders_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "payments": {
+      "name": "payments",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "storeId": {
+          "name": "storeId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripeAccountId": {
+          "name": "stripeAccountId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripeAccountCreatedAt": {
+          "name": "stripeAccountCreatedAt",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "stripeAccountExpiresAt": {
+          "name": "stripeAccountExpiresAt",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "detailsSubmitted": {
+          "name": "detailsSubmitted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "payments_id": {
+          "name": "payments_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "products": {
+      "name": "products",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "category": {
+          "name": "category",
+          "type": "enum('skateboards','clothing','shoes','accessories')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'skateboards'"
+        },
+        "sizes": {
+          "name": "sizes",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "colors": {
+          "name": "colors",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "subcategory": {
+          "name": "subcategory",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "price": {
+          "name": "price",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'0'"
+        },
+        "inventory": {
+          "name": "inventory",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "rating": {
+          "name": "rating",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "tags": {
+          "name": "tags",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "storeId": {
+          "name": "storeId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "products_id": {
+          "name": "products_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "resources": {
+      "name": "resources",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "images": {
+          "name": "images",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "models": {
+          "name": "models",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "category": {
+          "name": "category",
+          "type": "enum('skateboards','clothing','shoes','accessories')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'skateboards'"
+        },
+        "subcategory": {
+          "name": "subcategory",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sizes": {
+          "name": "sizes",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "colors": {
+          "name": "colors",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "printAreas": {
+          "name": "printAreas",
+          "type": "enum('Alloverprint','Backside','Frontside','Backendfront','Sleeveleft','Sleeveright')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'Frontside'"
+        },
+        "price": {
+          "name": "price",
+          "type": "decimal(10,2)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'0'"
+        },
+        "inventory": {
+          "name": "inventory",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "rating": {
+          "name": "rating",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "tags": {
+          "name": "tags",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "('null')"
+        },
+        "supplierId": {
+          "name": "supplierId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "resources_id": {
+          "name": "resources_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "stores": {
+      "name": "stores",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "stripeAccountId": {
+          "name": "stripeAccountId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "stores_id": {
+          "name": "stores_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "suppliers": {
+      "name": "suppliers",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "stripeAccountId": {
+          "name": "stripeAccountId",
+          "type": "varchar(191)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "suppliers_id": {
+          "name": "suppliers_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

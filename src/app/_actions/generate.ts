@@ -40,6 +40,8 @@ export async function generateProducts({
       inventory: faker.number.int({ min: 0, max: 100 }),
       storeId,
       tags: faker.helpers.shuffle(productTags).slice(0, 3),
+      sizes: null,
+      colors: null
     })
   }
   await db.insert(products).values(allProducts)
