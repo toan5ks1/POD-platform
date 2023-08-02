@@ -96,14 +96,14 @@ export interface SubscriptionPlan {
 }
 
 export enum Colors {
-  "White" = "#FFFFFF",
-  "Multicolor" = "#FFFFFF",
-  "Lightgrey" = "#FFFFFF",
-  "Grey" = "#FFFFFF",
-  "Black" = "#FFFFFF",
-  "Red" = "#FFFFFF",
-  "Blue" = "#FFFFFF",
-  "Pink" = "#FFFFFF",
+  White = "#FFFFFF",
+  Multicolor = "#FFFFF0",
+  Lightgrey = "#F0F0F1",
+  Grey = "#D0D0D2",
+  Black = "#000000",
+  Red = "#FF0000",
+  Blue = "#0000FF",
+  Pink = "#FFC0CB",
 }
 
 export enum Sizes {

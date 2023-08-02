@@ -4,7 +4,6 @@ import state from '@/lib/store';
 import { useFrame } from '@react-three/fiber';
 import { easing } from 'maath';
 import React, { type ReactNode, useRef } from 'react';
-import { Vector3 } from 'three/src/Three';
 import { useSnapshot } from 'valtio';
 
 interface CameraRigProps {
@@ -25,7 +24,7 @@ const CameraRig: React.FC<CameraRigProps> = ({ children }) => {
     const isMobile = window.innerWidth > 320 && window.innerWidth <= 430;
 
     //* set the initial position of the model
-    let targetPosition = [-0.4, 0, 2];
+    let targetPosition: [number, number, number] = [-0.4, 0, 2];
     if (snap.intro) {
       switch (true) {
         case isBreakpointLarge:
@@ -63,7 +62,7 @@ const CameraRig: React.FC<CameraRigProps> = ({ children }) => {
     }
 
     //* set the camera position
-    easing.damp3(state.camera.position, new Vector3(...targetPosition), 0.25, delta);
+    easing.damp3(state.camera.position, targetPosition, 0.25, delta);
 
     //* set the model rotation smoothly
     easing.dampE(

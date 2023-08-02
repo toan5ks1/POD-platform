@@ -58,7 +58,7 @@ const Shirt = () => {
               scale={0.15}
               map={logoTexture}
               depthTest={false}
-              depthWrite={true}
+              // depthWrite={true}
             />
           )}
         </mesh>
