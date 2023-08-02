@@ -31,7 +31,7 @@ export function DesignTabs({
   return (
     <Tabs
       {...props}
-      className={cn("w-full overflow-x-auto", className)}
+      className={cn("w-full overflow-x-auto px-8", className)}
       onValueChange={(value) => router.push(value)}
     >
       <TabsList>
