@@ -1,0 +1,1 @@
+ALTER TABLE `resources` ADD `active` boolean DEFAULT true NOT NULL;
