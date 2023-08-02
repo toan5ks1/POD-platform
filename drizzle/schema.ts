@@ -29,7 +29,7 @@ export const admin = mysqlTable("admin", {
 },
 (table) => {
 	return {
-		adminId: primaryKey(table.id)
+		adminId: primaryKey(table.id),
 		id: unique("id").on(table.id),
 	}
 });
@@ -71,7 +71,7 @@ export const migrations = mysqlTable("migrations", {
 },
 (table) => {
 	return {
-		migrationsId: primaryKey(table.id)
+		migrationsId: primaryKey(table.id),
 		id: unique("id").on(table.id),
 	}
 });
