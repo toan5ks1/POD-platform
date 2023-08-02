@@ -19,7 +19,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "contentlayer/generated": ["./.contentlayer/generated"],
+      "three": ["node_modules/@types/three"],
+      "three-stdlib": ["node_modules/@types/three"]
     },
     "plugins": [
       {
