@@ -94,3 +94,23 @@ export interface SubscriptionPlan {
   price: number
   isCanceled?: boolean
 }
+
+export enum Colors {
+  White = "#FFFFFF",
+  Multicolor = "#FFFFF0",
+  Lightgrey = "#F0F0F1",
+  Grey = "#D0D0D2",
+  Black = "#000000",
+  Red = "#FF0000",
+  Blue = "#0000FF",
+  Pink = "#FFC0CB",
+}
+
+export enum Sizes {
+  "S",
+  "M",
+  "L",
+  "XL",
+  "2XL",
+  "3XL",
+}
