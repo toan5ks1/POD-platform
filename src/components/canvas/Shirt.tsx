@@ -5,7 +5,7 @@ import { Decal, useGLTF, useTexture } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
 import { easing } from "maath"
 import type * as THREE from "three"
-import { type GLTF } from "three-stdlib"
+import { type GLTF } from "three/examples/jsm/loaders/GLTFLoader"
 import { useSnapshot } from "valtio"
 
 import state from "@/lib/store"
