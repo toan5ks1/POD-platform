@@ -16,12 +16,21 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Icons } from "@/components/icons"
+import { getCategoryAction } from "@/app/_actions/category"
 
 interface MainNavProps {
   items?: MainNavItem[]
 }
 
 export function MainNav({ items }: MainNavProps) {
+  // const categoryTransaction = await getCategoryAction({
+  //   limit: 10,
+  //   offset: 1,
+  // })
+  
+  // console.log('categoriesasdjasdhk');
+  // console.log(categoryTransaction);
+
   return (
     <div className="hidden gap-6 lg:flex">
       <Link
@@ -37,64 +46,40 @@ export function MainNav({ items }: MainNavProps) {
       <NavigationMenu>
         <NavigationMenuList>
           {items?.[0]?.items ? (
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-auto">
-                {items[0].title}
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        aria-label="Home"
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
-                      >
-                        <Icons.logo className="h-6 w-6" aria-hidden="true" />
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          {siteConfig.name}
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          {siteConfig.description}
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  {items[0].items.map((item) => (
-                    <ListItem
-                      key={item.title}
-                      title={item.title}
-                      href={item.href}
-                    >
-                      {item.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            <Link href={String(items?.[0].href)}>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="h-auto" autoFocus={false}>
+                  {items[0].title}
+                </NavigationMenuTrigger>
+              </NavigationMenuItem>
+            </Link>
           ) : null}
           {items
             ?.filter((item) => item.title !== items[0]?.title)
             .map((item) =>
               item?.items ? (
-                <NavigationMenuItem key={item.title}>
-                  <NavigationMenuTrigger className="h-auto capitalize">
-                    {item.title}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {item.items.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                        >
-                          {item.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                <Link key={item.title} href={item?.href ? item.href : ''}>
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuTrigger className="h-auto capitalize" autoFocus={item?.items?.length > 1}>
+                      {item.title}
+                    </NavigationMenuTrigger>
+                    {item.items.length > 0 && (
+                      <NavigationMenuContent>
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                          {item.items.map((item) => (
+                            <ListItem
+                              key={item.title}
+                              title={item.title}
+                              href={item.href}
+                            >
+                              {item.description}
+                            </ListItem>
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    )}
+                  </NavigationMenuItem>
+                </Link>
               ) : (
                 item.href && (
                   <NavigationMenuItem key={item.title}>

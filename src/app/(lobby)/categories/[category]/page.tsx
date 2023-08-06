@@ -5,6 +5,7 @@ import { Header } from "@/components/header"
 import { Products } from "@/components/products"
 import { Shell } from "@/components/shells/shell"
 import { getProductsAction } from "@/app/_actions/product"
+import { getCategoryAction } from "@/app/_actions/category"
 import { getStoresAction } from "@/app/_actions/store"
 
 // Running out of edge function execution units on vercel free plan

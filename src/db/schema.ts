@@ -58,6 +58,17 @@ export const products = mysqlTable("products", {
 
 export type Product = InferModel<typeof products>
 
+export const category = mysqlTable("category", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 191 }).notNull(),
+  desc: text("desc"),
+  image: text("image"),
+  tags: json("tags").$type<string[] | null>().default(null),
+  createdAt: timestamp("created_at").defaultNow(),
+})
+
+export type Category = InferModel<typeof category>
+
 export const productsRelations = relations(products, ({ one }) => ({
   store: one(stores, { fields: [products.storeId], references: [stores.id] }),
 }))

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client"
 
 import * as React from "react"
@@ -22,6 +23,7 @@ import { addToCartAction } from "@/app/_actions/cart"
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   product: Product
+  tag: string
   variant?: "default" | "switchable"
   isAddedToCart?: boolean
   onSwitch?: () => Promise<void>
@@ -29,6 +31,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function ProductCard({
   product,
+  tag,
   variant = "default",
   isAddedToCart = false,
   onSwitch,
@@ -48,6 +51,14 @@ export function ProductCard({
       >
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={4 / 3}>
+            {tag !== '' && (
+              <div className="absolute left-[10px] top-[10px] 
+              z-10 h-[30px] w-[100px] items-center rounded-[3px] 
+              border-[2px] border-[#C3862C] bg-[#F9F7D7]">
+                
+                  <p className="my-auto text-center font-bold text-[#C3862C]">{tag}</p>
+              </div>
+            )}
             {product?.images?.length ? (
               <Image
                 src={
@@ -81,8 +92,18 @@ export function ProductCard({
       >
         <CardContent className="grid gap-2.5 p-4">
           <CardTitle className="line-clamp-1">{product.name}</CardTitle>
-          <CardDescription className="line-clamp-2">
-            {formatPrice(product.price)}
+          <CardDescription className="flex flex-row">
+            <span>By Gildan</span>
+            <span className="pl-[5px]">5000</span>
+          </CardDescription>
+          <CardTitle className="mt-[10px] line-clamp-1">From USD {formatPrice(product.price).replace(".00", "")}</CardTitle>
+          <CardDescription className="flex flex-row">
+            <span>From USD {formatPrice(Number(product.price) - Number(product.price) / 100 * 20).replace(".00", "")} with Wearify Premium</span>
+          </CardDescription>
+          <CardDescription className="mt-[10px] flex flex-row">
+            <span>8 Size</span>
+            <span className="pl-[5px]">70 colors</span>
+            <span className="pl-[5px]">22 print provider</span>
           </CardDescription>
         </CardContent>
       </Link>
