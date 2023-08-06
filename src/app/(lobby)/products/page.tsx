@@ -52,13 +52,13 @@ export default async function ProductsPage({
     store_ids: typeof store_ids === "string" ? store_ids : null,
   })
 
-  // const categoryTransaction = await getCategoryAction({
-  //   limit: 10,
-  //   offset: 1,
-  // })
+  const categoryTransaction = await getCategoryAction({
+    limit: 10,
+    offset: 1,
+  })
 
-  // console.log('categoriesasdjasdhk');
-  // console.log(categoryTransaction);
+  console.log('categoriesasdjasdhk');
+  console.log(categoryTransaction);
   
 
   const pageCount = Math.ceil(productsTransaction.total / limit)

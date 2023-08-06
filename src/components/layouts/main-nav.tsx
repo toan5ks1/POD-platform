@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable react/jsx-no-undef */
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
 import type { MainNavItem } from "@/types"
-
+import { db } from "@/db"
+import { Category, category } from "@/db/schema"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {
@@ -20,16 +26,35 @@ import { getCategoryAction } from "@/app/_actions/category"
 
 interface MainNavProps {
   items?: MainNavItem[]
+  
 }
 
 export function MainNav({ items }: MainNavProps) {
-  // const categoryTransaction = await getCategoryAction({
-  //   limit: 10,
-  //   offset: 1,
-  // })
-  
-  // console.log('categoriesasdjasdhk');
-  // console.log(categoryTransaction);
+  const [categoryItems, setCategoryItems] = React.useState<Category[]>([{
+    id: 4,
+    name: "Phan Trí Dũng",
+    desc: "ádasdas",
+    image: "category/64c67612169dd-1690727954/image 10.png",
+    tags: JSON.parse("[{\"value\":\"ádasdas\"}]".replace(/\\"/g, '"')),
+    createdAt: null
+}]);
+
+  React.useEffect(() => {
+    async function fetchCategoryData() {
+      try {
+        const categoryTransaction = await getCategoryAction({
+          limit: 10,
+          offset: 1,
+        });
+        setCategoryItems(categoryTransaction.items);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+
+    fetchCategoryData();
+  }, []);
+  console.log(categoryItems)
 
   return (
     <div className="hidden gap-6 lg:flex">
@@ -66,13 +91,13 @@ export function MainNav({ items }: MainNavProps) {
                     {item.items.length > 0 && (
                       <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                          {item.items.map((item) => (
+                          {categoryItems.map((item) => (
                             <ListItem
-                              key={item.title}
-                              title={item.title}
-                              href={item.href}
+                              key={item.name}
+                              title={item.name}
+                              href={'/products'}
                             >
-                              {item.description}
+                              {item.desc}
                             </ListItem>
                           ))}
                         </ul>

@@ -2,7 +2,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { db } from "@/db"
-import { products, stores } from "@/db/schema"
+import { products, stores, category } from "@/db/schema"
 import { desc, eq, sql } from "drizzle-orm"
 import Balance from "react-wrap-balancer"
 
@@ -36,6 +36,12 @@ export default async function IndexPage() {
     .from(products)
     .limit(8)
     .orderBy(desc(products.createdAt))
+  
+  const allCategory = await db
+    .select()
+    .from(category)
+    .limit(8)
+    .orderBy(desc(category.createdAt))
 
   const allStoresWithProductCount = await db
     .select({
@@ -50,31 +56,6 @@ export default async function IndexPage() {
     .groupBy(stores.id)
     .orderBy(desc(sql<number>`count(${products.id})`))
 
-  async function getGithubStars(): Promise<number | null> {
-    try {
-      const response = await fetch(
-        "https://api.github.com/repos/sadmann7/skateshop",
-        {
-          headers: {
-            Accept: "application/vnd.github+json",
-          },
-          next: {
-            revalidate: 60,
-          },
-        }
-      )
-
-      if (!response.ok) {
-        return null
-      }
-
-      const data = (await response.json()) as { stargazers_count: number }
-
-      return data.stargazers_count
-    } catch (error) {
-      return null
-    }
-  }
 
   return (
     <Shell as="div" className="gap-12">
@@ -135,27 +116,27 @@ export default async function IndexPage() {
         className="space-y-6"
         id="categories">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
-          {productCategories.map((category) => (
+          {allCategory.map((category) => (
             <Link
-              aria-label={`Go to ${category.title}`}
-              key={category.title}
-              href={`/categories/${category.title}`}
+              aria-label={`Go to ${category.name}`}
+              key={category.name}
+              href={`/categories/${category.name}`}
             >
               <div className="group relative h-[200px] overflow-hidden rounded-md">
                 <AspectRatio ratio={4 / 5}>
                   <div className="absolute inset-0 z-10 bg-black/60 transition-colors group-hover:bg-black/70" />
-                  <Image
+                  {/* <Image
                     src={category.image}
-                    alt={category.title}
+                    alt={category.name}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     fill
                     className="object-cover transition-transform group-hover:scale-105"
                     priority
-                  />
+                  /> */}
                 </AspectRatio>
                 <div className="absolute inset-0 z-20 flex items-center justify-center">
                   <h3 className="text-[30px] font-bold capitalize text-slate-100">
-                    {category.title}
+                    {category.name}
                   </h3>
                 </div>
               </div>

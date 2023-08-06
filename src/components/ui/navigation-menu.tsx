@@ -2,8 +2,15 @@ import * as React from "react"
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
 import { cva } from "class-variance-authority"
 import { ChevronDown } from "lucide-react"
+import { db } from "@/db"
+import { category } from "@/db/schema"
 
 import { cn } from "@/lib/utils"
+
+//  const allCategory = await db
+//     .select()
+//     .from(category)
+//     .limit(8)
 
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
@@ -22,6 +29,23 @@ const NavigationMenu = React.forwardRef<
   </NavigationMenuPrimitive.Root>
 ))
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName
+
+const NavigationMenuListA = React.forwardRef<
+  React.ElementRef<typeof NavigationMenuPrimitive.List>,
+  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
+>(({ className, ...props }, ref) => (
+  <NavigationMenuPrimitive.List
+    ref={ref}
+    className={cn(
+      "group flex flex-1 list-none items-center justify-center space-x-1",
+      className
+    )}
+    {...props}
+  />
+))
+NavigationMenuListA.displayName = NavigationMenuPrimitive.List.displayName
+
+const NavigationMenuItemA = NavigationMenuPrimitive.Item
 
 const NavigationMenuList = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.List>,
@@ -123,6 +147,7 @@ export {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
+  NavigationMenuItemA,
   NavigationMenuContent,
   NavigationMenuTrigger,
   NavigationMenuLink,
