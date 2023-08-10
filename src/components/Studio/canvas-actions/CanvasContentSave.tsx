@@ -5,10 +5,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from "react"
 import { useUpdateCanvasMutation } from "@/store/api/canvas-slice"
-import { Button, useDisclosure, useToast } from "@chakra-ui/react"
+
+// import { Button, useDisclosure, useToast } from "@chakra-ui/react"
 
 import { useAppSelector } from "@/hooks/use-app-selector"
 import useStageObject from "@/hooks/use-stage-object"
+import { Button } from "@/components/ui/button"
 import DrawerWrapper from "@/components/editor/Drawer/DrawerWrapper"
 
 import CanvasCreateForm from "./CanvasCreateForm"
@@ -20,8 +22,8 @@ const CanvasContentSave = () => {
 
   const [update, { isLoading }] = useUpdateCanvasMutation()
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const toast = useToast()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
+  // const toast = useToast()
 
   useEffect(() => {
     const objectsJSON = JSON.stringify(stageObjects)
@@ -30,14 +32,14 @@ const CanvasContentSave = () => {
 
   const saveHandler = () => {
     if (!stage.id) {
-      toast({
-        title: "Please create new stage first.",
-        status: "info",
-        duration: 5000,
-        isClosable: true,
-      })
+      // toast({
+      //   title: "Please create new stage first.",
+      //   status: "info",
+      //   duration: 5000,
+      //   isClosable: true,
+      // })
 
-      onOpen()
+      // onOpen()
       return
     }
 
@@ -49,22 +51,22 @@ const CanvasContentSave = () => {
 
     update({ ...stageValues, content })
       .then(() => {
-        toast({
-          title: "Changes were successfully saved.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        })
+        // toast({
+        //   title: "Changes were successfully saved.",
+        //   status: "success",
+        //   duration: 5000,
+        //   isClosable: true,
+        // })
       })
       .catch((err: any) => console.error(err))
   }
 
   return (
     <>
-      <Button isLoading={isLoading} onClick={saveHandler}>
+      <Button disabled={!isLoading} onClick={saveHandler}>
         Save Changes
       </Button>
-      <DrawerWrapper title="Create a stage" isOpen={isOpen} onClose={onClose}>
+      <DrawerWrapper title="Create a stage" isOpen={false} onClose={() => {}}>
         <CanvasCreateForm content={content} />
       </DrawerWrapper>
     </>

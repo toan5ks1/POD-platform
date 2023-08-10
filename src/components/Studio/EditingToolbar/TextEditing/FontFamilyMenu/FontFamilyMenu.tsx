@@ -1,20 +1,29 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Button, Menu, MenuButton, Portal, useDisclosure } from '@chakra-ui/react';
-import useGetFontListQuery from '~/hooks/use-get-font-list-query';
-import useStageObject from '~/hooks/use-stage-object';
-import { GoogleFont } from '~/types/google-font-type';
-import FontFamilyMenuList from './FontFamilyMenuList';
-import { useCallback } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// import { Button, Menu, MenuButton, Portal, useDisclosure } from '@chakra-ui/react';
+import { useCallback } from "react"
+
+import { type GoogleFont } from "@/types/google-font-type"
+import useGetFontListQuery from "@/hooks/use-get-font-list-query"
+import useStageObject from "@/hooks/use-stage-object"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Icons } from "@/components/icons"
+
+import FontFamilyMenuList from "./FontFamilyMenuList"
 
 type Props = {
-  id: string;
-  fontFamily: string;
-};
+  id: string
+  fontFamily: string
+}
 
 const FontFamilyMenu = ({ id, fontFamily }: Props) => {
-  const { updateOne } = useStageObject();
-  const { fontList, isLoaded } = useGetFontListQuery();
-  const { isOpen: isMenuOpen, onOpen: openMenu, onClose: closeMenu } = useDisclosure();
+  const { updateOne } = useStageObject()
+  const { fontList, isLoaded } = useGetFontListQuery()
 
   const handleMenuItemClick = useCallback(
     (font: GoogleFont) => {
@@ -25,22 +34,30 @@ const FontFamilyMenu = ({ id, fontFamily }: Props) => {
           fontVariants: font.variants,
           webFont: true,
         },
-      });
-      closeMenu();
+      })
     },
-    [id],
-  );
+    [id, updateOne]
+  )
 
   return (
-    <Menu isOpen={isMenuOpen} onOpen={openMenu} onClose={closeMenu}>
-      <MenuButton as={Button} fontFamily={fontFamily} variant="outline" rightIcon={<ChevronDownIcon />}>
-        {fontFamily}
-      </MenuButton>
-      <Portal>
-        <FontFamilyMenuList fontList={fontList} isLoaded={isLoaded} handleMenuItemClick={handleMenuItemClick} />
-      </Portal>
-    </Menu>
-  );
-};
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button aria-label="Sort products" size="sm">
+          {fontFamily}
+          <Icons.chevronDown className="ml-2 h-4 w-4" aria-hidden="true" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-48">
+        <DropdownMenuItem asChild>
+          <FontFamilyMenuList
+            fontList={fontList}
+            isLoaded={isLoaded}
+            handleMenuItemClick={handleMenuItemClick}
+          />
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
 
-export default FontFamilyMenu;
+export default FontFamilyMenu

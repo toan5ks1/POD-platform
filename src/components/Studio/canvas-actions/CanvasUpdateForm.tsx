@@ -4,15 +4,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useUpdateCanvasMutation } from "@/store/api/canvas-slice"
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  useToast,
-  VStack,
-} from "@chakra-ui/react"
+// import {
+//   Button,
+//   FormControl,
+//   FormErrorMessage,
+//   FormLabel,
+//   Input,
+//   useToast,
+//   VStack,
+// } from "@chakra-ui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
@@ -24,7 +24,7 @@ import useRequestHandler from "@/hooks/use-request-handler"
 const CanvasUpdateForm = () => {
   const { stage } = useAppSelector((state) => state.frame)
   const [update, { isLoading }] = useUpdateCanvasMutation()
-  const toast = useToast()
+  // const toast = useToast()
 
   const stageValues = {
     id: stage.id as string,
@@ -54,17 +54,17 @@ const CanvasUpdateForm = () => {
       ...data,
     })
 
-    toast({
-      title: "Your canvas was successfully updated.",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    })
+    // toast({
+    //   title: "Your canvas was successfully updated.",
+    //   status: "success",
+    //   duration: 5000,
+    //   isClosable: true,
+    // })
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing="4">
+      {/* <VStack spacing="4">
         <FormControl isInvalid={!!errors.name} isRequired>
           <FormLabel htmlFor="name">Name</FormLabel>
           <Input id="name" placeholder="name" {...register("name")} />
@@ -87,7 +87,7 @@ const CanvasUpdateForm = () => {
         >
           Save
         </Button>
-      </VStack>
+      </VStack> */}
     </form>
   )
 }

@@ -5,20 +5,22 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useEffect, useState } from "react"
 import { useGetCanvasesQuery } from "@/store/api/canvas-slice"
-import {
-  Box,
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react"
+
+// import {
+//   Box,
+//   Button,
+//   Modal,
+//   ModalBody,
+//   ModalCloseButton,
+//   ModalContent,
+//   ModalHeader,
+//   ModalOverlay,
+//   useDisclosure,
+//   VStack,
+// } from "@chakra-ui/react"
 
 import { type ICanvas } from "@/types/canvas"
+import { Button } from "@/components/ui/button"
 import Loader from "@/components/editor/Loader/Loader"
 import NothingFound from "@/components/editor/NothingFound/NothingFound"
 import Pagination from "@/components/editor/Pagination/Pagination"
@@ -28,7 +30,7 @@ import CanvasViewItem from "./CanvasViewItem"
 const ITEMS_PER_PAGE = 5
 
 const CanvasesView = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [page, setPage] = useState(1)
   const [canvases, setCanvases] = useState<ICanvas[]>([])
@@ -47,17 +49,16 @@ const CanvasesView = () => {
   }, [data])
 
   return (
-    <Box sx={{ w: "100%" }}>
+    <div className="w-full">
       <Button
-        variant="ghost"
-        colorScheme="pink"
-        onClick={onOpen}
-        sx={{ w: "100%" }}
+        className="w-full"
+        onClick={() => {}}
+        // sx={{ w: "100%" }}
       >
         View all canvases
       </Button>
 
-      <Modal
+      {/* <Modal
         isOpen={isOpen}
         onClose={onClose}
         isCentered
@@ -90,8 +91,8 @@ const CanvasesView = () => {
             )}
           </ModalBody>
         </ModalContent>
-      </Modal>
-    </Box>
+      </Modal> */}
+    </div>
   )
 }
 

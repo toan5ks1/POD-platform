@@ -1,10 +1,14 @@
-import { Shell } from "@/components/shells/shell"
+"use client"
+
+import { store } from "@/store/store"
+import { Provider } from "react-redux"
+
 import Studio from "@/components/Studio/Studio"
 
 export default function DesignPage() {
   return (
-    <Shell variant="centered">
+    <Provider store={store}>
       <Studio />
-    </Shell>
+    </Provider>
   )
 }

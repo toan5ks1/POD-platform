@@ -17,16 +17,15 @@ export default async function DashboardLayout({
   if (!user) {
     redirect("/signin")
   }
-  console.log("triggered")
 
   return (
     <div className="flex h-screen flex-col">
       <SiteHeader user={user} />
-      <div className="flex h-full flex-row">
+      <div className="flex h-full flex-row overflow-hidden">
         <main className="flex-auto justify-center">{children}</main>
-        <aside className="fixed z-30 hidden basis-1/4 border-l px-4 py-8 md:sticky md:block">
+        {/* <aside className="fixed z-30 hidden basis-1/4 border-l px-4 py-8 md:sticky md:block">
           <SidebarNav items={dashboardConfig.sidebarNav} />
-        </aside>
+        </aside> */}
       </div>
     </div>
   )

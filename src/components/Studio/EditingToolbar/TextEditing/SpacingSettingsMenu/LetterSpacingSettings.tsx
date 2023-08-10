@@ -1,17 +1,18 @@
-import useStageObject from '~/hooks/use-stage-object';
-import CustomNumberInput from './CustomNumberInput';
+import useStageObject from "@/hooks/use-stage-object"
+
+import CustomNumberInput from "./CustomNumberInput"
 
 type Props = {
-  id: string;
-  letterSpacing: number;
-};
+  id: string
+  letterSpacing: number
+}
 
 const LetterSpacingSettings = ({ id, letterSpacing }: Props) => {
-  const { updateOne } = useStageObject();
+  const { updateOne } = useStageObject()
 
   const handleChange = (value: number) => {
-    updateOne({ id, data: { letterSpacing: value } });
-  };
+    updateOne({ id, data: { letterSpacing: value } })
+  }
 
   return (
     <CustomNumberInput
@@ -24,7 +25,7 @@ const LetterSpacingSettings = ({ id, letterSpacing }: Props) => {
       pattern={/^-?\d{1,3}$/}
       onChange={handleChange}
     />
-  );
-};
+  )
+}
 
-export default LetterSpacingSettings;
+export default LetterSpacingSettings

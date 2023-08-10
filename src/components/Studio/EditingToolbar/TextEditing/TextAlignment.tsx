@@ -1,59 +1,64 @@
-import { Icon, IconButton, Tooltip } from '@chakra-ui/react';
-import { HiOutlineMenu, HiOutlineMenuAlt1, HiOutlineMenuAlt2, HiOutlineMenuAlt3 } from 'react-icons/hi';
-import useStageObject from '~/hooks/use-stage-object';
-import { StageTextData } from '~/types/stage-object';
+import { type StageTextData } from "@/types/stage-object"
+import useStageObject from "@/hooks/use-stage-object"
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/icons"
+import { TooltipContainer } from "@/components/shells/tooltip-shell"
 
 type Props = {
-  id: string;
-  textAlign: StageTextData['align'];
-};
+  id: string
+  textAlign: StageTextData["align"]
+}
 
 const TextAlignment = ({ id, textAlign }: Props) => {
-  const { updateOne } = useStageObject();
+  const { updateOne } = useStageObject()
 
   const handleAlignmentClick = () => {
-    updateOne({ id, data: { align: toggleAlignment(textAlign) } });
-  };
+    updateOne({ id, data: { align: toggleAlignment(textAlign) } })
+  }
 
-  const toggleAlignment = (textAlign: StageTextData['align']) => {
+  const toggleAlignment = (textAlign: StageTextData["align"]) => {
     switch (textAlign) {
-      case 'left':
-        return 'center';
-      case 'center':
-        return 'right';
-      case 'right':
-        return 'justify';
-      case 'justify':
-        return 'left';
+      case "left":
+        return "center"
+      case "center":
+        return "right"
+      case "right":
+        return "justify"
+      case "justify":
+        return "left"
       default:
-        break;
+        break
     }
-  };
+  }
 
-  const getAlignmentIcon = (textAlign: StageTextData['align']) => {
+  const getAlignmentIcon = (textAlign: StageTextData["align"]) => {
     switch (textAlign) {
-      case 'center':
-        return HiOutlineMenuAlt1;
-      case 'left':
-        return HiOutlineMenuAlt2;
-      case 'right':
-        return HiOutlineMenuAlt3;
-      case 'justify':
-        return HiOutlineMenu;
+      case "center":
+        return <Icons.center className="ml-2 h-4 w-4" aria-hidden="true" />
+      case "left":
+        return <Icons.left className="ml-2 h-4 w-4" aria-hidden="true" />
+      case "right":
+        return <Icons.right className="ml-2 h-4 w-4" aria-hidden="true" />
+      case "justify":
+        return <Icons.justify className="ml-2 h-4 w-4" aria-hidden="true" />
       default:
-        break;
+        break
     }
-  };
+  }
 
   return (
-    <Tooltip hasArrow label="Alignment" placement="bottom" openDelay={500}>
-      <IconButton
+    <TooltipContainer tooltip="Alignment" side="bottom">
+      <Button
         aria-label="Alignment"
-        icon={<Icon as={getAlignmentIcon(textAlign)} boxSize={5} />}
+        variant="outline"
+        size="icon"
+        className="relative"
         onClick={handleAlignmentClick}
-      />
-    </Tooltip>
-  );
-};
+      >
+        {getAlignmentIcon(textAlign)}
+      </Button>
+    </TooltipContainer>
+  )
+}
 
-export default TextAlignment;
+export default TextAlignment

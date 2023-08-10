@@ -1,17 +1,18 @@
-import useStageObject from '~/hooks/use-stage-object';
-import CustomNumberInput from './CustomNumberInput';
+import useStageObject from "@/hooks/use-stage-object"
+
+import CustomNumberInput from "./CustomNumberInput"
 
 type Props = {
-  id: string;
-  lineHeight: number;
-};
+  id: string
+  lineHeight: number
+}
 
 const LineSpacingSettings = ({ id, lineHeight }: Props) => {
-  const { updateOne } = useStageObject();
+  const { updateOne } = useStageObject()
 
   const handleChange = (value: number) => {
-    updateOne({ id, data: { lineHeight: value } });
-  };
+    updateOne({ id, data: { lineHeight: value } })
+  }
 
   return (
     <CustomNumberInput
@@ -24,7 +25,7 @@ const LineSpacingSettings = ({ id, lineHeight }: Props) => {
       pattern={/^\d\.?\d{1,2}$/}
       onChange={handleChange}
     />
-  );
-};
+  )
+}
 
-export default LineSpacingSettings;
+export default LineSpacingSettings

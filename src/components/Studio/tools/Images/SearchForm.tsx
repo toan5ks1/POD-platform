@@ -1,42 +1,76 @@
-import { FormControl, HStack, Icon, IconButton, Input, InputGroup } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import { HiOutlineSearch } from 'react-icons/hi';
+import { useForm } from "react-hook-form"
+
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Icons } from "@/components/icons"
 
 type IFilter = {
-  query: string;
-};
+  query: string
+}
 
 type Props = {
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  setQueryReset: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+  setQueryReset: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 const SearchForm = ({ setSearch, setQueryReset }: Props) => {
-  const { register, handleSubmit } = useForm<IFilter>({});
-
   const submitHandler = (data: IFilter) => {
-    data.query ? setSearch(data.query) : setQueryReset(true);
-  };
+    data.query ? setSearch(data.query) : setQueryReset(true)
+  }
+
+  const form = useForm<IFilter>({
+    defaultValues: {
+      query: "",
+    },
+  })
 
   return (
-    <form style={{ width: '100%' }} onSubmit={handleSubmit(submitHandler)}>
-      <FormControl>
-        <HStack>
-          <InputGroup>
-            <Input
-              id="query"
-              type="search"
-              variant="filled"
-              focusBorderColor="pink.500"
-              placeholder="Search photos"
-              {...register('query')}
-            />
-          </InputGroup>
-          <IconButton type="submit" aria-label="search-btn" icon={<Icon as={HiOutlineSearch} boxSize={5} />} />
-        </HStack>
-      </FormControl>
-    </form>
-  );
-};
+    <Form {...form}>
+      <form
+        className="w-full"
+        onSubmit={(...args) => void form.handleSubmit(submitHandler)(...args)}
+      >
+        <FormField
+          control={form.control}
+          name="query"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Search photos"
+                  type="search"
+                  {...field}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.trim()
+                    field.onChange(e)
+                  }}
+                />
+                <Button
+                  type="submit"
+                  aria-label="search-btn"
+                  variant="outline"
+                  size="icon"
+                >
+                  <Icons.search
+                    className="mr-2 h-3.5 w-3.5"
+                    aria-hidden="true"
+                  />
+                </Button>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
+  )
+}
 
-export default SearchForm;
+export default SearchForm

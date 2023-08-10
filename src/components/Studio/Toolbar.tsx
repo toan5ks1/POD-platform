@@ -1,23 +1,17 @@
+"use client"
+
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import {
-  Flex,
-  Icon,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react"
 import type Konva from "konva"
 
 import { TOOLBAR_TABS } from "@/config/components"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 import Export from "./tools/Export"
 import HotkeysList from "./tools/Hotkeys/Hotkeys"
 import Images from "./tools/Images/Images"
 import ImageUpload from "./tools/ImageUpload/ImageUpload"
 import Resize from "./tools/Resize"
-import Shapes from "./tools/Shapes/Shapes"
 import Texts from "./tools/Text/Texts"
 
 type Props = {
@@ -26,64 +20,42 @@ type Props = {
 
 const Toolbar = ({ stageRef }: Props) => {
   return (
-    <Flex h="100%" borderRight="2px" borderColor="gray.200">
-      <Tabs
-        isLazy
-        lazyBehavior="keepMounted"
-        orientation="vertical"
-        variant="line"
-        colorScheme="pink"
-        h="100%"
-        id="toolbar"
-        bgColor="gray.100"
-      >
-        <TabList>
-          {TOOLBAR_TABS.map((t, i) => (
-            <Tab
-              px="4"
-              py="4"
-              key={i}
-              bgColor="gray.100"
-              display="flex"
-              flexDir="column"
-              alignItems="center"
-              justifyContent="center"
-              fontSize="12px"
-              fontWeight="600"
-              _selected={{ bgColor: "white", color: "pink.500" }}
-              _hover={{ color: "pink.500" }}
+    <div className="flex h-screen border-r-2 border-gray-200">
+      <Tabs className="h-full overflow-x-auto px-8" orientation="vertical">
+        <TabsList>
+          {TOOLBAR_TABS.map((tab, i) => (
+            <TabsTrigger
+              key={tab.title}
+              value={i.toString()}
+              className="selected:bg-white selected:text-pink-500 flex items-center justify-center bg-background p-4 text-xs font-semibold text-foreground shadow-sm hover:text-pink-500"
             >
-              <Icon as={t.icon} boxSize={6} />
-              {t.title}
-            </Tab>
+              {tab.title}
+              {tab.icon}
+            </TabsTrigger>
           ))}
-        </TabList>
-
-        <TabPanels minW="350px" maxW="350px" bgColor="white" overflowY="auto">
-          <TabPanel>
-            <Resize />
-          </TabPanel>
-          <TabPanel>
-            <Export stageRef={stageRef} />
-          </TabPanel>
-          <TabPanel p="0" h="100%" overflow="hidden">
-            <Images />
-          </TabPanel>
-          <TabPanel>
-            <ImageUpload />
-          </TabPanel>
-          <TabPanel p="0" h="100%" overflow="hidden">
-            <Texts />
-          </TabPanel>
-          <TabPanel>
-            <Shapes />
-          </TabPanel>
-          <TabPanel>
-            <HotkeysList />
-          </TabPanel>
-        </TabPanels>
+        </TabsList>
+        {/* <div className="px-4 pb-2 pt-3"> */}
+        <TabsContent value={"0"}>
+          <Resize />
+        </TabsContent>
+        <TabsContent value={"1"}>
+          <Export stageRef={stageRef} />
+        </TabsContent>
+        <TabsContent value={"2"}>
+          <Images />
+        </TabsContent>
+        <TabsContent value={"3"}>
+          <ImageUpload />
+        </TabsContent>
+        <TabsContent value={"4"}>
+          <Texts />
+        </TabsContent>
+        <TabsContent value={"5"}>
+          <HotkeysList />
+        </TabsContent>
+        {/* </div> */}
       </Tabs>
-    </Flex>
+    </div>
   )
 }
 

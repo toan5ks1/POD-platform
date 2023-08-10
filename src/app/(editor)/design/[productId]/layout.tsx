@@ -24,9 +24,9 @@ export default async function DesignLayout({
   }
 
   return (
-    <Shell variant="sidebar" className="gap-4">
-      <div className="space-y-4 overflow-hidden">
-        <DesignTabs productId={productId} className="flex justify-end" />
+    <Shell variant="sidebar" className="bg-gray-200">
+      <div className="relative h-[calc(100vh_-_8rem)]">
+        <DesignTabs productId={productId} className="absolute right-6 w-min" />
         {children}
       </div>
     </Shell>

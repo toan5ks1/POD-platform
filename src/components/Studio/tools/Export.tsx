@@ -1,21 +1,24 @@
-import React from 'react';
-import Konva from 'konva';
-import { Button } from '@chakra-ui/react';
-import { useAppSelector } from '~/hooks/use-app-selector';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React from "react"
+import type Konva from "konva"
+
+import { useAppSelector } from "@/hooks/use-app-selector"
+import { Button } from "@/components/ui/button"
 
 type IProps = {
-  stageRef: React.RefObject<Konva.Stage> | null;
-};
+  stageRef: React.RefObject<Konva.Stage> | null
+}
 
 const Export = ({ stageRef }: IProps) => {
-  const { width, height } = useAppSelector((state) => state.frame);
+  const { width, height } = useAppSelector((state) => state.frame)
 
   const downloadURI = (uri: string, name: string) => {
-    const link = document.createElement('a');
-    link.download = name;
-    link.href = uri;
-    link.click();
-  };
+    const link = document.createElement("a")
+    link.download = name
+    link.href = uri
+    link.click()
+  }
 
   const handleExport = () => {
     if (stageRef?.current) {
@@ -25,16 +28,16 @@ const Export = ({ stageRef }: IProps) => {
         width: width * stageRef.current.scaleX(),
         height: height * stageRef.current.scaleY(),
         pixelRatio: 1 / stageRef.current.attrs.scaleX,
-      });
-      downloadURI(dataURL, 'webster');
+      })
+      downloadURI(dataURL, "webster")
     }
-  };
+  }
 
   return (
-    <Button onClick={handleExport} w="100%">
+    <Button onClick={handleExport} className="w-full">
       Export
     </Button>
-  );
-};
+  )
+}
 
-export default Export;
+export default Export

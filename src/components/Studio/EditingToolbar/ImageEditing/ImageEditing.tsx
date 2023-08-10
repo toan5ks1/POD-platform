@@ -1,19 +1,22 @@
-import { HStack } from '@chakra-ui/react';
-import { StageImageData, StageObject } from '~/types/stage-object';
-import ImageFlip from './Flip';
-import ImageFilters from './Filters';
+import { type StageImageData, type StageObject } from "@/types/stage-object"
+
+import ImageFilters from "./Filters"
+import ImageFlip from "./Flip"
 
 type Props = {
-  selectedObject: StageObject;
-};
+  selectedObject: StageObject
+}
 
 const ImageEditing = ({ selectedObject }: Props) => {
   return (
-    <HStack spacing={2}>
+    <div className="flex space-x-2">
       <ImageFlip selectedObject={selectedObject} />
-      <ImageFilters imageId={selectedObject.id} data={selectedObject.data as StageImageData} />
-    </HStack>
-  );
-};
+      <ImageFilters
+        imageId={selectedObject.id}
+        data={selectedObject.data as StageImageData}
+      />
+    </div>
+  )
+}
 
-export default ImageEditing;
+export default ImageEditing

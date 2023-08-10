@@ -1,40 +1,42 @@
-import { Divider, Kbd, Text, VStack } from '@chakra-ui/react';
-import { KeysWithDescription, KeyWithDescriptionType } from '~/consts/keys';
+"use client"
+
+import { KeysWithDescription, type KeyWithDescriptionType } from "@/config/keys"
 
 const HotkeyItem = ({ hotkey }: { hotkey: KeyWithDescriptionType }) => {
-  const keyValue = hotkey.key[0] === ' ' ? 'Space' : hotkey.key[0];
+  console.log("keyhot")
+  const keyValue = hotkey.key[0] === " " ? "Space" : hotkey.key[0]
   const key = (
     <span>
-      <Kbd>{keyValue}</Kbd>
+      <kbd>{keyValue}</kbd>
       {hotkey.key[1] && (
         <span>
-          + <Kbd>{hotkey.key[1]}</Kbd>
+          + <span>{hotkey.key[1]}</span>
         </span>
       )}
     </span>
-  );
+  )
 
   return (
-    <VStack spacing={2}>
+    <div className="space-y-2">
       {key}
-      <Text>{hotkey.description}</Text>
-    </VStack>
-  );
-};
+      <p>{hotkey.description}</p>
+    </div>
+  )
+}
 
 const HotkeysList = () => {
   const keys = KeysWithDescription.map((hotkey) => ({
     ...hotkey,
-    key: (hotkey.key as string).split('+'),
-  }));
+    key: (hotkey.key as string).split("+"),
+  }))
 
   return (
-    <VStack spacing={4} divider={<Divider borderColor="gray.300" />}>
+    <div className="space-y-4">
       {keys.map((key, i) => (
         <HotkeyItem key={i} hotkey={key} />
       ))}
-    </VStack>
-  );
-};
+    </div>
+  )
+}
 
-export default HotkeysList;
+export default HotkeysList

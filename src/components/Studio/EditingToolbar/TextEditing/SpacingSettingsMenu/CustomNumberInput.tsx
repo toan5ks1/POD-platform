@@ -1,63 +1,63 @@
-import {
-  Flex,
-  NumberInput,
-  NumberInputField,
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Input } from "@/components/ui/input"
+import { Slider } from "@/components/ui/slider"
 
 type Props = {
-  min: number;
-  max: number;
-  value: number;
-  step: number;
-  pattern?: RegExp;
-  mark?: number;
-  label: string;
-  onChange: (val: number) => void;
-};
+  min: number
+  max: number
+  value: number
+  step: number
+  pattern?: RegExp
+  mark?: number
+  label: string
+  onChange: (val: number) => void
+}
 
-const CustomNumberInput = ({ min, max, step, value, pattern = /^\d$/, mark, label, onChange }: Props) => {
-  const handleInputChange = (valueAsString: string, valueAsNumber: number) => {
-    if (pattern.test(valueAsString) && valueAsNumber >= min && valueAsNumber <= max) {
-      onChange(valueAsNumber);
+const CustomNumberInput = ({
+  min,
+  max,
+  step,
+  value,
+  pattern = /^\d$/,
+  label,
+  onChange,
+}: Props) => {
+  const handleInputChange = (valueAsString: string) => {
+    const parsedValue = parseInt(valueAsString, 10)
+    if (
+      pattern.test(valueAsString) &&
+      parsedValue >= min &&
+      parsedValue <= max
+    ) {
+      onChange(parsedValue)
     }
-  };
+  }
 
   return (
-    <VStack pb="10px">
-      <Flex w="100%" justify="space-between">
-        <Text as="span">{label}</Text>
-        <NumberInput size="sm" maxW="40px" min={min} max={max} value={value} onChange={handleInputChange}>
-          <NumberInputField px="5px" textAlign="center" />
-        </NumberInput>
-      </Flex>
+    <div className="space-y-4 pb-10">
+      <div className="flex w-full justify-between">
+        <span className="text-sm font-medium tracking-wide text-foreground">
+          {label}
+        </span>
+        <Input
+          type="number"
+          inputMode="numeric"
+          min={min}
+          max={max}
+          value={value}
+          onChange={(e) => handleInputChange(e.target.value)}
+        />
+      </div>
       <Slider
-        colorScheme="pink"
-        focusThumbOnChange={false}
+        thickness="thin"
+        defaultValue={[0]}
         min={min}
         max={max}
         step={step}
-        value={value}
-        onChange={onChange}
-      >
-        {typeof mark === 'number' && (
-          <SliderMark value={mark} fontSize="sm">
-            {mark}
-          </SliderMark>
-        )}
-        <SliderTrack>
-          <SliderFilledTrack />
-        </SliderTrack>
-        <SliderThumb boxSize="15px" />
-      </Slider>
-    </VStack>
-  );
-};
+        value={[value]}
+        onValueChange={(value: number[]) => onChange(value[0]!)}
+      />
+    </div>
+  )
+}
 
-export default CustomNumberInput;
+export default CustomNumberInput

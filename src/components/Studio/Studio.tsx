@@ -1,17 +1,14 @@
+"use client"
+
 import React, { useEffect, useState } from "react"
-import { Box, Center, Flex } from "@chakra-ui/react"
 import type Konva from "konva"
 
-import {
-  EDITING_TOOLBAR_HEIGHT,
-  FRAME_CONTAINER_PADDING,
-  NAVBAR_HEIGHT,
-} from "@/config/components"
+import { EDITING_TOOLBAR_HEIGHT, NAVBAR_HEIGHT } from "@/config/components"
 
 import EditingToolbar from "./EditingToolbar/EditingToolbar"
 import Frame from "./Frame"
+
 // import Navbar from './Navbar/Navbar';
-import Toolbar from "./Toolbar"
 
 const Studio = () => {
   const stageRef = React.useRef<Konva.Stage>(null)
@@ -38,23 +35,12 @@ const Studio = () => {
   }, [])
 
   return (
-    <Box maxH="100vh">
-      {/* <Navbar /> */}
-      <Flex h={`calc(100vh - ${navbarHeight}px)`} w="100%">
-        <Toolbar stageRef={stageRef} />
-
-        <Box flexGrow="1">
-          <EditingToolbar />
-          <Center
-            h={`calc(100vh - ${navbarHeight}px - ${editingToolbarHeight}px)`}
-            bgColor="gray.200"
-            padding={`${FRAME_CONTAINER_PADDING}px`}
-          >
-            <Frame stageRef={stageRef} />
-          </Center>
-        </Box>
-      </Flex>
-    </Box>
+    <div className="h-full w-full grow">
+      <EditingToolbar />
+      <div className="flex h-full items-center justify-center p-4">
+        <Frame stageRef={stageRef} />
+      </div>
+    </div>
   )
 }
 

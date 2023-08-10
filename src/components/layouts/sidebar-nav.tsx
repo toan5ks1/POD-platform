@@ -1,11 +1,15 @@
 "use client"
 
+import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { SidebarNavItem } from "@/types"
+import type Konva from "konva"
 
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
+
+import Toolbar from "../Studio/Toolbar"
 
 export interface SidebarNavProps {
   items: SidebarNavItem[]
@@ -13,12 +17,14 @@ export interface SidebarNavProps {
 
 export function SidebarNav({ items }: SidebarNavProps) {
   const pathname = usePathname()
+  const stageRef = React.useRef<Konva.Stage>(null)
 
   if (!items?.length) return null
 
   return (
     <div className="flex w-full flex-col gap-2">
-      {items.map((item, index) => {
+      <Toolbar stageRef={stageRef} />
+      {/* {items.map((item, index) => {
         const Icon = Icons[item.icon ?? "chevronLeft"]
 
         return item.href ? (
@@ -49,7 +55,7 @@ export function SidebarNav({ items }: SidebarNavProps) {
             {item.title}
           </span>
         )
-      })}
+      })} */}
     </div>
   )
 }

@@ -6,14 +6,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useCreateCanvasMutation } from "@/store/api/canvas-slice"
 import { setStage } from "@/store/slices/frame-slice"
-import {
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  VStack,
-} from "@chakra-ui/react"
+// import {
+//   Button,
+//   FormControl,
+//   FormErrorMessage,
+//   FormLabel,
+//   Input,
+//   VStack,
+// } from "@chakra-ui/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useDispatch } from "react-redux"
@@ -49,7 +49,7 @@ const CanvasCreateForm = ({ content }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack spacing="4">
+      {/* <VStack spacing="4">
         <FormControl isInvalid={!!errors.name} isRequired>
           <FormLabel htmlFor="name">Name</FormLabel>
           <Input id="name" placeholder="name" {...register("name")} />
@@ -72,7 +72,7 @@ const CanvasCreateForm = ({ content }: Props) => {
         >
           Save
         </Button>
-      </VStack>
+      </VStack> */}
     </form>
   )
 }

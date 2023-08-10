@@ -1,3 +1,5 @@
+"use client"
+
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -20,7 +22,6 @@ import { TooltipContainer } from "@/components/shells/tooltip-shell"
 
 import CanvasContentSave from "../canvas-actions/CanvasContentSave"
 import ImageEditing from "./ImageEditing/ImageEditing"
-import ShapesEditing from "./ShapesEditing/ShapesEditing"
 import TextEditing from "./TextEditing/TextEditing"
 
 const EditingToolbar = () => {
@@ -59,8 +60,6 @@ const EditingToolbar = () => {
     switch (selectedObject?.data.type) {
       case StageObjectType.IMAGE:
         return <ImageEditing selectedObject={selectedObject} />
-      case StageObjectType.SHAPE:
-        return <ShapesEditing selectedObject={selectedObject} />
       case StageObjectType.TEXT:
         return <TextEditing selectedObject={selectedObject} />
       default:
@@ -70,7 +69,7 @@ const EditingToolbar = () => {
 
   return (
     <div
-      className={`h-${EDITING_TOOLBAR_HEIGHT} flex space-x-2 px-2`}
+      className={`h-${EDITING_TOOLBAR_HEIGHT} flex space-x-2 px-4`}
       id="editing_toolbar"
     >
       <TooltipContainer tooltip="Undo Ctrl + Z">

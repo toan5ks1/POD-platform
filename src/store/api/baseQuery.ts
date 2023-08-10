@@ -1,19 +1,20 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query';
+import { fetchBaseQuery } from "@reduxjs/toolkit/dist/query"
+
 // import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 // import { logout, login } from '../slices/auth-slice';
-import type { RootState } from '../store';
+import type { RootState } from "../store"
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_URL,
+  baseUrl: process.env.NEXT_PUBLIC_APP_URL ?? "",
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+    const token = (getState() as RootState).auth.token
     if (token) {
-      headers.set('authorization', `Bearer ${token}`);
+      headers.set("authorization", `Bearer ${token}`)
     }
-    return headers;
+    return headers
   },
-  credentials: 'include',
-});
+  credentials: "include",
+})
 
 // const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
 //   args,
@@ -54,4 +55,4 @@ const baseQuery = fetchBaseQuery({
 //   return result;
 // };
 
-export default baseQuery;
+export default baseQuery

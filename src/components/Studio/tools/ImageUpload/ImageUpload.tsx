@@ -1,36 +1,51 @@
-import { SyntheticEvent, useRef, useState } from 'react';
-import { InputGroup, Button, VStack } from '@chakra-ui/react';
-import { Photo } from '../Images/Images';
-import { nanoid } from '@reduxjs/toolkit';
-import ImagesGrid from '../Images/ImagesGrid';
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import React from "react"
+import Image from "next/image"
+import type { FileWithPreview } from "@/types"
+
+import { DEFAULT_IMAGE_OBJECT } from "@/config/stage-object"
+import useStageObject from "@/hooks/use-stage-object"
+import { FileDialog } from "@/components/file-dialog"
 
 const ImageUpload = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [images, setImages] = useState<Photo[]>([]);
+  const { createOne } = useStageObject()
 
-  const setFile: React.ChangeEventHandler<HTMLInputElement> = (e: SyntheticEvent) => {
-    const files = (e.target as HTMLInputElement).files;
-    const file = (files as FileList)[0];
-    const url = URL.createObjectURL(file);
-    const photo: Photo = { id: nanoid(), urls: { regular: url } };
-    setImages([...images, photo]);
-  };
+  const addImageToStage = (img: FileWithPreview) => {
+    createOne({
+      src: img.preview,
+      ...DEFAULT_IMAGE_OBJECT,
+    })
+  }
 
-  const handleClick = () => {
-    inputRef.current?.click();
-  };
+  const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
 
   return (
-    <VStack spacing={8}>
-      <InputGroup onClick={handleClick}>
-        <input type={'file'} hidden accept="image/*" onChange={setFile} ref={inputRef} />
-        <VStack overflow="hidden" align="center" w="100%">
-          <Button w="100%">Upload</Button>
-        </VStack>
-      </InputGroup>
-      {images.length && <ImagesGrid images={images} />}
-    </VStack>
-  );
-};
+    <div className="space-y-8">
+      {files?.length ? (
+        <div className="flex items-center gap-2">
+          {files.map((file, i) => (
+            <Image
+              key={i}
+              src={file.preview}
+              alt={file.name}
+              className="h-20 w-20 shrink-0 rounded-md object-cover object-center"
+              width={80}
+              height={80}
+              onClick={() => addImageToStage(file)}
+            />
+          ))}
+          <FileDialog
+            setValue={() => {}}
+            name="images"
+            maxFiles={3}
+            maxSize={1024 * 1024 * 4}
+            files={files}
+            setFiles={setFiles}
+          />
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
-export default ImageUpload;
+export default ImageUpload

@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
-import FontFaceObserver from 'fontfaceobserver';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useEffect, useState } from "react"
+import FontFaceObserver from "fontfaceobserver"
 
 //https://github.com/iamskok/use-font-face-observer/tree/master
 
 export type FontFace = {
-  family: string;
+  family: string
   weight?:
     | `light`
     | `normal`
@@ -18,8 +21,8 @@ export type FontFace = {
     | `600`
     | `700`
     | `800`
-    | `900`;
-  style?: `normal` | `italic` | `oblique`;
+    | `900`
+  style?: `normal` | `italic` | `oblique`
   stretch?:
     | `normal`
     | `ultra-condensed`
@@ -29,45 +32,46 @@ export type FontFace = {
     | `semi-expanded`
     | `expanded`
     | `extra-expanded`
-    | `ultra-expanded`;
-};
+    | `ultra-expanded`
+}
 
 export type Options = {
-  testString?: string;
-  timeout?: number;
-};
+  testString?: string
+  timeout?: number
+}
 
 export type Config = {
-  showErrors: boolean;
-};
+  showErrors: boolean
+}
 
 function useFontFaceObserver(
   fontFaces: FontFace[] = [],
   { testString, timeout }: Options = {},
-  { showErrors }: Config = { showErrors: false },
+  { showErrors }: Config = { showErrors: false }
 ): boolean {
-  const [isResolved, setIsResolved] = useState(false);
-  const fontFacesString = JSON.stringify(fontFaces);
+  const [isResolved, setIsResolved] = useState(false)
+  const fontFacesString = JSON.stringify(fontFaces)
 
   useEffect(() => {
-    const promises = JSON.parse(fontFacesString).map(({ family, weight, style, stretch }: FontFace) =>
-      new FontFaceObserver(family, {
-        weight,
-        style,
-        stretch,
-      }).load(testString, timeout),
-    );
+    const promises = JSON.parse(fontFacesString).map(
+      ({ family, weight, style, stretch }: FontFace) =>
+        new FontFaceObserver(family, {
+          weight,
+          style,
+          stretch,
+        }).load(testString, timeout)
+    )
 
     Promise.all(promises)
       .then(() => setIsResolved(true))
       .catch(() => {
         if (showErrors) {
-          console.error(`An error occurred during font loading`);
+          console.error(`An error occurred during font loading`)
         }
-      });
-  }, [fontFacesString, testString, timeout, showErrors]);
+      })
+  }, [fontFacesString, testString, timeout, showErrors])
 
-  return isResolved;
+  return isResolved
 }
 
-export default useFontFaceObserver;
+export default useFontFaceObserver

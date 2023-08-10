@@ -1,32 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Box, Button, useDisclosure } from "@chakra-ui/react"
+// import { Box, Button, useDisclosure } from "@chakra-ui/react"
 
+import { Button } from "@/components/ui/button"
 import DrawerWrapper from "@/components/editor/Drawer/DrawerWrapper"
 
 import CanvasUpdateForm from "./CanvasUpdateForm"
 
 const CanvasUpdate = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Box sx={{ w: "100%" }}>
-      <Button
-        variant="ghost"
-        colorScheme="pink"
-        onClick={onOpen}
-        sx={{ w: "100%" }}
-      >
+    <div className="w-full">
+      <Button className="w-full" onClick={() => {}}>
         Update this canvas
       </Button>
       <DrawerWrapper
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={false}
+        onClose={() => {}}
         title="Update This Canvas"
       >
         <CanvasUpdateForm />
       </DrawerWrapper>
-    </Box>
+    </div>
   )
 }
 

@@ -1,46 +1,60 @@
-import Konva from 'konva';
-import { Rect, Circle, RegularPolygon, Star, Arrow } from 'react-konva';
-import useDragHandlers from '~/hooks/use-drag-handlers';
-import { StageObject, StageObjectData } from '~/types/stage-object';
-import { ShapeType } from '~/types/shape-type';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Konva from "konva"
+import { Arrow, Circle, Rect, RegularPolygon, Star } from "react-konva"
+
+import { ShapeType } from "@/types/shape-type"
+import { type StageObject, type StageObjectData } from "@/types/stage-object"
+import useDragHandlers from "@/hooks/use-drag-handlers"
 
 export type RegularPolygonData = {
-  sides: number;
-  radius: number;
+  sides: number
+  radius: number
 } & StageObjectData &
-  Record<string, any>;
+  Record<string, any>
 
 export type StarData = {
-  numPoints: number;
-  innerRadius: number;
-  outerRadius: number;
+  numPoints: number
+  innerRadius: number
+  outerRadius: number
 } & StageObjectData &
-  Record<string, any>;
+  Record<string, any>
 
 export type ArrowData = {
-  points: number[];
+  points: number[]
 } & StageObjectData &
-  Record<string, any>;
+  Record<string, any>
 
 type Props = {
-  obj: StageObject;
-  onSelect: (e: Konva.KonvaEventObject<MouseEvent>) => void;
-};
+  obj: StageObject
+  onSelect: (e: Konva.KonvaEventObject<MouseEvent>) => void
+}
 
 const ShapeObject = ({ obj, onSelect }: Props) => {
-  const { id, data } = obj;
+  const { id, data } = obj
 
-  const { onDragStart, onDragEnd } = useDragHandlers();
+  const { onDragStart, onDragEnd } = useDragHandlers()
 
   switch (data.shapeType) {
     case ShapeType.RECT:
       return (
-        <Rect id={id} onClick={onSelect} onDragStart={onDragStart} onDragEnd={(e) => onDragEnd(e, obj)} {...data} />
-      );
+        <Rect
+          id={id}
+          onClick={onSelect}
+          onDragStart={onDragStart}
+          onDragEnd={(e) => onDragEnd(e, obj)}
+          {...data}
+        />
+      )
     case ShapeType.CIRCLE:
       return (
-        <Circle id={id} onClick={onSelect} onDragStart={onDragStart} onDragEnd={(e) => onDragEnd(e, obj)} {...data} />
-      );
+        <Circle
+          id={id}
+          onClick={onSelect}
+          onDragStart={onDragStart}
+          onDragEnd={(e) => onDragEnd(e, obj)}
+          {...data}
+        />
+      )
     case ShapeType.POLYGON:
       return (
         <RegularPolygon
@@ -50,7 +64,7 @@ const ShapeObject = ({ obj, onSelect }: Props) => {
           onDragEnd={(e) => onDragEnd(e, obj)}
           {...(data as RegularPolygonData)}
         />
-      );
+      )
     case ShapeType.STAR:
       return (
         <Star
@@ -60,7 +74,7 @@ const ShapeObject = ({ obj, onSelect }: Props) => {
           onDragEnd={(e) => onDragEnd(e, obj)}
           {...(data as StarData)}
         />
-      );
+      )
     case ShapeType.ARROW:
       return (
         <Arrow
@@ -70,10 +84,10 @@ const ShapeObject = ({ obj, onSelect }: Props) => {
           onDragEnd={(e) => onDragEnd(e, obj)}
           {...(data as ArrowData)}
         />
-      );
+      )
   }
 
-  return null;
-};
+  return null
+}
 
-export default ShapeObject;
+export default ShapeObject

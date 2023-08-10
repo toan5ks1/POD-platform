@@ -1,88 +1,101 @@
-import { Link, Text, VStack } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import NothingFound from '~/components/NothingFound/NothingFound';
-import { unsplash } from '~/utils/unsplash-api';
-import SearchForm from './SearchForm';
-import { DEFAULT_IMG_QUERY, UNSPLASH_URL } from '~/consts/images';
-import InfiniteWrapper from './InfiniteWrapper';
-import ImagesGrid from './ImagesGrid';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { type FileWithPreview } from "@/types"
+import { unsplash } from "@/utils/unsplash-api"
 
-export type Photo = {
-  id: string;
-  urls: { regular: string };
-};
+import { DEFAULT_IMG_QUERY, UNSPLASH_URL } from "@/config/images"
+
+import ImagesGrid from "./ImagesGrid"
+import InfiniteWrapper from "./InfiniteWrapper"
+import SearchForm from "./SearchForm"
+
+export interface Photo extends FileWithPreview {
+  id: string
+  urls: { regular: string }
+}
 
 const Images = () => {
-  const [images, setImages] = useState<Photo[]>([]);
-  const [currQuery, setCurrQuery] = useState<string>('');
-  const [query, setQuery] = useState<string>('');
-  const [page, setPage] = useState<number>(1);
-  const [queryReset, setQueryReset] = useState<boolean>(false);
+  const [images, setImages] = useState<Photo[]>([])
+  const [currQuery, setCurrQuery] = useState<string>("")
+  const [query, setQuery] = useState<string>("")
+  const [page, setPage] = useState<number>(1)
+  const [queryReset, setQueryReset] = useState<boolean>(false)
 
   const fetchImages = async () => {
     try {
-      setPage((prev) => prev + 1);
+      setPage((prev) => prev + 1)
 
-      const photos = await unsplash.search.getPhotos({ query: currQuery || DEFAULT_IMG_QUERY, page });
-      const result = photos.response?.results as Photo[] | [];
-      setImages((currQuery && currQuery === query) || queryReset ? result : [...images, ...result]);
+      const photos = await unsplash.search.getPhotos({
+        query: currQuery || DEFAULT_IMG_QUERY,
+        page,
+      })
+      const result = photos.response?.results as Photo[] | []
+      setImages(
+        (currQuery && currQuery === query) || queryReset
+          ? result
+          : [...images, ...result]
+      )
 
-      query && setQuery('');
-      queryReset && setQueryReset(false);
+      query && setQuery("")
+      queryReset && setQueryReset(false)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   useEffect(() => {
     if (query && query !== currQuery) {
-      setPage(1);
-      setCurrQuery(query);
+      setPage(1)
+      setCurrQuery(query)
     }
     if (!query && !currQuery) {
-      fetchImages();
+      void fetchImages()
     }
-  }, [query]);
+  }, [query])
 
   useEffect(() => {
     if (currQuery === query) {
-      document.getElementById('imageGrid')?.scrollTo(0, 0);
-      fetchImages();
+      document.getElementById("imageGrid")?.scrollTo(0, 0)
+      void fetchImages()
     }
-  }, [currQuery]);
+  }, [currQuery])
 
   useEffect(() => {
     if (queryReset) {
-      setCurrQuery('');
-      setPage(1);
+      setCurrQuery("")
+      setPage(1)
     }
-  }, [queryReset]);
+  }, [queryReset])
 
   return (
     <>
-      <VStack bgColor="white" w="100%" spacing={3} p="4">
+      <div className="w-full space-y-3 bg-white p-4">
         <SearchForm setSearch={setQuery} setQueryReset={setQueryReset} />
-        <Text>
-          View more on{' '}
-          <Link isExternal color="pink.500" as={RouterLink} to={UNSPLASH_URL}>
-            Unsplash
-          </Link>
-        </Text>
-      </VStack>
-      <VStack id="imageGrid" spacing={3} sx={{ p: 4, position: 'relative', h: '100%', overflowY: 'auto' }}>
+        <p className="text-base text-muted-foreground">
+          View more on <Link href={UNSPLASH_URL}>Unsplash</Link>
+        </p>
+      </div>
+      <div id="imageGrid" className="relative h-full overflow-y-auto p-4">
         {!images?.length ? (
-          <NothingFound message="No images were found." />
+          notFound()
         ) : (
           <>
-            <InfiniteWrapper fetchItems={fetchImages} count={images?.length || 10}>
+            <InfiniteWrapper
+              fetchItems={fetchImages}
+              count={images?.length || 10}
+            >
               <ImagesGrid images={images} />
             </InfiniteWrapper>
           </>
         )}
-      </VStack>
+      </div>
     </>
-  );
-};
+  )
+}
 
-export default Images;
+export default Images

@@ -1,35 +1,37 @@
-import Konva from 'konva';
-import { KonvaEventObject } from 'konva/lib/Node';
-import { useRef } from 'react';
-import { Text } from 'react-konva';
-import useDragHandlers from '~/hooks/use-drag-handlers';
-import useFontFaceObserver from '~/pages/Studio/objects/TextObject/use-font-face-observer';
-import { StageTextObjectData } from '~/types/stage-object';
+import { useRef } from "react"
+import type Konva from "konva"
+import { type KonvaEventObject } from "konva/lib/Node"
+import { Text } from "react-konva"
+
+import { type StageTextObjectData } from "@/types/stage-object"
+import useDragHandlers from "@/hooks/use-drag-handlers"
+
+import useFontFaceObserver from "./use-font-face-observer"
 
 type TProps = {
-  shapeProps: StageTextObjectData;
-  onDoubleClick: (e: KonvaEventObject<MouseEvent>) => void;
-  onSelect: (e: Konva.KonvaEventObject<MouseEvent>) => void;
-};
+  shapeProps: StageTextObjectData
+  onDoubleClick: (e: KonvaEventObject<MouseEvent>) => void
+  onSelect: (e: Konva.KonvaEventObject<MouseEvent>) => void
+}
 
 const ResizableText = ({ shapeProps, onDoubleClick, onSelect }: TProps) => {
-  const { id, data } = shapeProps;
-  const isFontLoaded = useFontFaceObserver([{ family: data.fontFamily }]);
-  const { onDragStart, onDragEnd } = useDragHandlers();
+  const { id, data } = shapeProps
+  const isFontLoaded = useFontFaceObserver([{ family: data.fontFamily }])
+  const { onDragStart, onDragEnd } = useDragHandlers()
 
-  const textRef = useRef<Konva.Text | null>(null);
+  const textRef = useRef<Konva.Text | null>(null)
 
   const handleResize = () => {
     if (textRef.current !== null) {
-      const textNode = textRef.current;
-      const newWidth = textNode.width() * textNode.scaleX();
+      const textNode = textRef.current
+      const newWidth = textNode.width() * textNode.scaleX()
       textNode.setAttrs({
         width: newWidth,
         scaleX: 1,
         scaleY: 1,
-      });
+      })
     }
-  };
+  }
 
   return (
     <Text
@@ -40,7 +42,7 @@ const ResizableText = ({ shapeProps, onDoubleClick, onSelect }: TProps) => {
       draggable={data.draggable}
       width={data.width}
       text={data.text}
-      fontFamily={isFontLoaded ? data.fontFamily : 'sans-serif'}
+      fontFamily={isFontLoaded ? data.fontFamily : "sans-serif"}
       fill={data.fill}
       fontSize={data.fontSize}
       lineHeight={data.lineHeight}
@@ -61,7 +63,7 @@ const ResizableText = ({ shapeProps, onDoubleClick, onSelect }: TProps) => {
       onDblClick={onDoubleClick}
       onDblTap={onDoubleClick}
     />
-  );
-};
+  )
+}
 
-export default ResizableText;
+export default ResizableText

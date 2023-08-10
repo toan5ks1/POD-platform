@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { withContentlayer } from "next-contentlayer"
 
 /**
@@ -14,6 +17,11 @@ const nextConfig = {
   },
   experimental: {
     serverActions: true,
+    esmExternals: "loose",
+  },
+  webpack: (config) => {
+    config.externals = [...config.externals, { canvas: "canvas" }] // required to make Konva & react-konva work
+    return config
   },
   /** Linting and typechecking are already done as separate tasks in the CI pipeline */
   // eslint: {

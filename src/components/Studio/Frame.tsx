@@ -1,6 +1,9 @@
+"use client"
+
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useEffect } from "react"
 import { loadGoogleFontsDefaultVariants } from "@/utils/load-google-fonts-default-variants"
-import { Box } from "@chakra-ui/react"
 import type Konva from "konva"
 import { type KonvaEventObject } from "konva/lib/Node"
 import { Layer, Stage, Transformer } from "react-konva"
@@ -57,7 +60,7 @@ const Frame = ({ stageRef }: IProps) => {
       )
       .map((obj) => obj.data.fontFamily)
 
-    if (fontsToLoad.length) loadGoogleFontsDefaultVariants(fontsToLoad)
+    if (fontsToLoad.length) void loadGoogleFontsDefaultVariants(fontsToLoad)
 
     resetObjectSelect()
   }, [])
@@ -122,7 +125,7 @@ const Frame = ({ stageRef }: IProps) => {
   }
 
   return (
-    <Box overflow="hidden" maxW={boxWidth} maxH={boxHeight}>
+    <div className="h-full overflow-hidden">
       <Stage
         width={width * scale}
         height={height * scale}
@@ -175,7 +178,7 @@ const Frame = ({ stageRef }: IProps) => {
           />
         </Layer>
       </Stage>
-    </Box>
+    </div>
   )
 }
 
