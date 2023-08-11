@@ -2,27 +2,27 @@ import { Icons } from "@/components/icons"
 
 export const TOOLBAR_TABS = [
   {
-    icon: <Icons.add className="ml-2 h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
     title: "Resize",
   },
   {
-    icon: <Icons.add className="ml-2 h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
     title: "Export",
   },
   {
-    icon: <Icons.add className="ml-2 h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
     title: "Images",
   },
   {
-    icon: <Icons.add className="ml-2 h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
     title: "Upload",
   },
   {
-    icon: <Icons.add className="ml-2 h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
     title: "Text",
   },
   {
-    icon: <Icons.add className="ml-2 h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
     title: "Hotkeys",
   },
 ]

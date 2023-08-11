@@ -3,7 +3,6 @@
 import { KeysWithDescription, type KeyWithDescriptionType } from "@/config/keys"
 
 const HotkeyItem = ({ hotkey }: { hotkey: KeyWithDescriptionType }) => {
-  console.log("keyhot")
   const keyValue = hotkey.key[0] === " " ? "Space" : hotkey.key[0]
   const key = (
     <span>

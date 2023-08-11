@@ -69,7 +69,7 @@ const EditingToolbar = () => {
 
   return (
     <div
-      className={`h-${EDITING_TOOLBAR_HEIGHT} flex space-x-2 px-4`}
+      className={`h-${EDITING_TOOLBAR_HEIGHT} flex space-x-2`}
       id="editing_toolbar"
     >
       <TooltipContainer tooltip="Undo Ctrl + Z">

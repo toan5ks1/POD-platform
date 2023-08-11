@@ -1,8 +1,14 @@
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
+"use client"
+
+import { useRef } from "react"
+import { store } from "@/store/store"
+import type Konva from "konva"
+import { Provider } from "react-redux"
 
 import { DesignTabs } from "@/components/pagers/design-tabs"
 import { Shell } from "@/components/shells/shell"
+import EditingToolbar from "@/components/Studio/EditingToolbar/EditingToolbar"
+import Toolbar from "@/components/Studio/Toolbar"
 
 interface DesignLayoutProps {
   children: React.ReactNode
@@ -11,24 +17,24 @@ interface DesignLayoutProps {
   }
 }
 
-export default async function DesignLayout({
-  children,
-  params,
-}: DesignLayoutProps) {
+export default function DesignLayout({ children, params }: DesignLayoutProps) {
   const productId = Number(params.productId)
-
-  const user = await currentUser()
-
-  if (!user) {
-    redirect("/signin")
-  }
-
+  const stageRef = useRef<Konva.Stage>(null)
   return (
-    <Shell variant="sidebar" className="bg-gray-200">
-      <div className="relative h-[calc(100vh_-_8rem)]">
-        <DesignTabs productId={productId} className="absolute right-6 w-min" />
-        {children}
+    <Provider store={store}>
+      <div className="flex h-screen flex-row overflow-hidden ">
+        <div className="relative w-full gap-8 bg-muted pb-8 pt-6 md:py-8">
+          <div className="flex h-min w-full justify-between px-4">
+            <EditingToolbar />
+            <DesignTabs productId={productId} />
+          </div>
+          {children}
+        </div>
+
+        <div className="fixed z-30 hidden w-2/6 border-l px-4 md:sticky md:block">
+          <Toolbar stageRef={stageRef} />
+        </div>
       </div>
-    </Shell>
+    </Provider>
   )
 }
