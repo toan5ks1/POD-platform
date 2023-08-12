@@ -6,23 +6,23 @@ export const TOOLBAR_TABS = [
     title: "Resize",
   },
   {
-    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.download className="h-4 w-4" aria-hidden="true" />,
     title: "Export",
   },
   {
-    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.image className="h-4 w-4" aria-hidden="true" />,
     title: "Images",
   },
   {
-    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.upload className="h-4 w-4" aria-hidden="true" />,
     title: "Upload",
   },
   {
-    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.text className="h-4 w-4" aria-hidden="true" />,
     title: "Text",
   },
   {
-    icon: <Icons.add className="h-4 w-4" aria-hidden="true" />,
+    icon: <Icons.hotkey className="h-4 w-4" aria-hidden="true" />,
     title: "Hotkeys",
   },
 ]

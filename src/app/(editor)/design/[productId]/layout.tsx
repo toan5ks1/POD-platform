@@ -6,7 +6,6 @@ import type Konva from "konva"
 import { Provider } from "react-redux"
 
 import { DesignTabs } from "@/components/pagers/design-tabs"
-import { Shell } from "@/components/shells/shell"
 import EditingToolbar from "@/components/Studio/EditingToolbar/EditingToolbar"
 import Toolbar from "@/components/Studio/Toolbar"
 
@@ -22,7 +21,7 @@ export default function DesignLayout({ children, params }: DesignLayoutProps) {
   const stageRef = useRef<Konva.Stage>(null)
   return (
     <Provider store={store}>
-      <div className="flex h-screen flex-row overflow-hidden ">
+      <div className="flex h-[calc(100vh-3.5rem)] flex-row overflow-hidden ">
         <div className="relative w-full gap-8 bg-muted pb-8 pt-6 md:py-8">
           <div className="flex h-min w-full justify-between px-4">
             <EditingToolbar />
