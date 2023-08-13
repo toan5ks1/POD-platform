@@ -88,7 +88,7 @@ const useStageResize = ({ stageRef }: Props) => {
   const handleZoom = (e: KonvaEventObject<WheelEvent>) => {
     e.evt.preventDefault()
 
-    let direction = e.evt.deltaY > 0 ? 1 : -1
+    let direction = e.evt.deltaY > 0 ? -1 : 1
 
     // when we zoom on trackpad, e.evt.ctrlKey is true, in that case lets revert direction
     if (e.evt.ctrlKey) {

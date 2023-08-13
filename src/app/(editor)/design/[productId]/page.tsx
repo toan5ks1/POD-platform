@@ -7,32 +7,22 @@ import { EDITING_TOOLBAR_HEIGHT, NAVBAR_HEIGHT } from "@/config/components"
 import Frame from "@/components/Studio/Frame"
 
 export default function DesignPage() {
+  const imgUrl = "/images/resources/t-shirt/t-shirt-front.png"
   const stageRef = React.useRef<Konva.Stage>(null)
-
-  const [navbarHeight, setNavbarHeight] = useState(NAVBAR_HEIGHT)
-  const [editingToolbarHeight, setEditingToolbarHeight] = useState(
-    EDITING_TOOLBAR_HEIGHT
-  )
+  const [image, setImage] = useState<HTMLImageElement | undefined>(undefined)
 
   useEffect(() => {
-    const navbar = document.querySelector("#navbar") as HTMLElement
-    if (navbar) {
-      setNavbarHeight(navbar.offsetHeight)
-    }
-  }, [])
-
-  useEffect(() => {
-    const editingToolbar = document.querySelector(
-      "#editing_toolbar"
-    ) as HTMLElement
-    if (editingToolbar) {
-      setEditingToolbarHeight(editingToolbar.offsetHeight)
+    const blob = new Blob([imgUrl], { type: "image/png" })
+    const img = new Image()
+    img.src = URL.createObjectURL(blob)
+    img.onload = () => {
+      setImage(img)
     }
   }, [])
 
   return (
     <div className="flex items-center justify-center">
-      <Frame stageRef={stageRef} />
+      <Frame stageRef={stageRef} initialImage={image} />
     </div>
   )
 }

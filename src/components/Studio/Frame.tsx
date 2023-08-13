@@ -3,16 +3,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useEffect } from "react"
+import { type StaticImageData } from "next/image"
 import { loadGoogleFontsDefaultVariants } from "@/utils/load-google-fonts-default-variants"
 import type Konva from "konva"
 import { type KonvaEventObject } from "konva/lib/Node"
-import { Layer, Stage, Transformer } from "react-konva"
+import { Image as KonvaImage, Layer, Stage, Transformer } from "react-konva"
 
 import {
   StageObjectType,
   type StageObject,
   type StageTextObjectData,
 } from "@/types/stage-object"
+import { DEFAULT_IMAGE_OBJECT } from "@/config/stage-object"
 import { useAppSelector } from "@/hooks/use-app-selector"
 import useHotkeySetup from "@/hooks/use-hotkey-setup"
 import useObjectSelect from "@/hooks/use-object-select"
@@ -26,10 +28,11 @@ import TextObject from "./objects/TextObject/TextObject"
 
 type IProps = {
   stageRef: React.RefObject<Konva.Stage> | null
+  initialImage: HTMLImageElement | undefined
 }
 
-const Frame = ({ stageRef }: IProps) => {
-  const { stageObjects, resetAll, replaceAll } = useStageObject()
+const Frame = ({ stageRef, initialImage }: IProps) => {
+  const { stageObjects, resetAll, replaceAll, createOne } = useStageObject()
   const {
     transformer: imageTransformer,
     onTransformerEnd: onImageTransformerEnd,
@@ -140,6 +143,7 @@ const Frame = ({ stageRef }: IProps) => {
         onDragMove={handleDragMoveStage}
       >
         <Layer>
+          <KonvaImage image={initialImage} width={500} height={500} />
           {sortStageObject().map((obj) => (
             <React.Fragment key={obj.id}>
               {renderStageObject(obj)}
