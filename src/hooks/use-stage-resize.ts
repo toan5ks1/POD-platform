@@ -89,16 +89,41 @@ const useStageResize = ({ stageRef }: Props) => {
     e.evt.preventDefault()
 
     let direction = e.evt.deltaY > 0 ? -1 : 1
-
+    const scaleBy = 1.1
+    const stage = stageRef?.current?.getStage()
+    const pointer = stage?.getPointerPosition() // Get mouse pointer position
     // when we zoom on trackpad, e.evt.ctrlKey is true, in that case lets revert direction
     if (e.evt.ctrlKey) {
       direction = -direction
     }
 
-    const scaleBy = 1.01
-    dispatch(
-      setScale({ scale: direction > 0 ? scale * scaleBy : scale / scaleBy })
-    )
+    // dispatch(
+    //   setScale({ scale: direction > 0 ? scale * scaleBy : scale / scaleBy })
+    // )
+    // setStageCoodrs()
+
+    if (stage) {
+      const oldScale = stage.scaleX()
+      const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy
+      const mousePointTo = {
+        x: (pointer?.x || 0 - stage.x()) / oldScale,
+        y: (pointer?.y || 0 - stage.x()) / oldScale,
+      }
+
+      const newPos = {
+        x: pointer?.x || 0 - mousePointTo.x * newScale,
+        y: pointer?.y || 0 - mousePointTo.y * newScale,
+      }
+
+      dispatch(
+        setScale({
+          scale: direction > 0 ? scale * scaleBy : scale / scaleBy,
+          //scale: { x: newScale, y: newScale },
+          // position: newPos,
+        })
+      )
+    }
+
     setStageCoodrs()
   }
 

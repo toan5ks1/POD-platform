@@ -3,8 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createSlice } from "@reduxjs/toolkit"
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { StageObject } from "@/types/stage-object"
+import { type StageObject } from "@/types/stage-object"
 
 export type IStageState = {
   id: string | null

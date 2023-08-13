@@ -2,8 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { useEffect } from "react"
-import { type StaticImageData } from "next/image"
+import React, { useEffect, useRef, useState } from "react"
 import { loadGoogleFontsDefaultVariants } from "@/utils/load-google-fonts-default-variants"
 import type Konva from "konva"
 import { type KonvaEventObject } from "konva/lib/Node"
@@ -17,6 +16,7 @@ import {
 import { DEFAULT_IMAGE_OBJECT } from "@/config/stage-object"
 import { useAppSelector } from "@/hooks/use-app-selector"
 import useHotkeySetup from "@/hooks/use-hotkey-setup"
+import useKonvaImage from "@/hooks/use-konva-image"
 import useObjectSelect from "@/hooks/use-object-select"
 import useStageObject from "@/hooks/use-stage-object"
 import useStageResize from "@/hooks/use-stage-resize"
@@ -28,11 +28,12 @@ import TextObject from "./objects/TextObject/TextObject"
 
 type IProps = {
   stageRef: React.RefObject<Konva.Stage> | null
-  initialImage: HTMLImageElement | undefined
+  initialImage: string
 }
 
 const Frame = ({ stageRef, initialImage }: IProps) => {
-  const { stageObjects, resetAll, replaceAll, createOne } = useStageObject()
+  const { stageObjects, resetAll, replaceAll } = useStageObject()
+
   const {
     transformer: imageTransformer,
     onTransformerEnd: onImageTransformerEnd,
@@ -55,6 +56,17 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
   const { width, height, scale, stage } = useAppSelector((state) => state.frame)
   const { boxWidth, boxHeight, handleZoom, handleDragMoveStage } =
     useStageResize({ stageRef })
+
+  const [konvaImage, setKonvaImage] = useState<HTMLImageElement | undefined>(
+    undefined
+  )
+
+  useKonvaImage({
+    initialImage,
+    onLoad: (imgElement) => {
+      setKonvaImage(imgElement)
+    },
+  })
 
   useEffect(() => {
     const fontsToLoad = stageObjects
@@ -130,8 +142,10 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
   return (
     <div className="h-full overflow-hidden">
       <Stage
-        width={width * scale}
-        height={height * scale}
+        // width={width * scale}
+        // height={height * scale}
+        width={920 * scale}
+        height={640 * scale}
         style={{ backgroundColor: "white" }}
         scaleX={scale}
         scaleY={scale}
@@ -143,7 +157,15 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
         onDragMove={handleDragMoveStage}
       >
         <Layer>
-          <KonvaImage image={initialImage} width={500} height={500} />
+          <KonvaImage
+            image={konvaImage}
+            width={920}
+            height={640}
+            // x={-100}
+            // y={-100}
+            x={((1 - scale) * 920) / 2}
+            y={((1 - scale) * 640) / 2}
+          />
           {sortStageObject().map((obj) => (
             <React.Fragment key={obj.id}>
               {renderStageObject(obj)}
