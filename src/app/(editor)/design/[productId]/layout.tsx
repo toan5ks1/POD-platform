@@ -22,15 +22,15 @@ export default function DesignLayout({ children, params }: DesignLayoutProps) {
   return (
     <Provider store={store}>
       <div className="flex h-[calc(100vh-3.5rem)] flex-row overflow-hidden ">
-        <div className="relative w-full gap-8 bg-muted pb-8 pt-6 md:py-8">
-          <div className="flex h-min w-full justify-between px-4">
+        <div className="relative h-full w-3/4 overflow-hidden bg-muted pb-8">
+          <div className="absolute z-30 flex h-min w-full justify-between px-4 pt-6">
             <EditingToolbar />
             <DesignTabs productId={productId} />
           </div>
           {children}
         </div>
 
-        <div className="fixed z-30 hidden w-2/6 border-l px-4 md:sticky md:block">
+        <div className="fixed z-30 hidden w-1/4 border-l px-4 md:sticky md:block">
           <Toolbar stageRef={stageRef} />
         </div>
       </div>

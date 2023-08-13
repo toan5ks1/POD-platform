@@ -110,16 +110,14 @@ const useStageResize = ({ stageRef }: Props) => {
         y: (pointer?.y || 0 - stage.x()) / oldScale,
       }
 
-      const newPos = {
-        x: pointer?.x || 0 - mousePointTo.x * newScale,
-        y: pointer?.y || 0 - mousePointTo.y * newScale,
-      }
+      // const newPos = {
+      //   x: pointer?.x || 0 - mousePointTo.x * newScale,
+      //   y: pointer?.y || 0 - mousePointTo.y * newScale,
+      // }
 
       dispatch(
         setScale({
           scale: direction > 0 ? scale * scaleBy : scale / scaleBy,
-          //scale: { x: newScale, y: newScale },
-          // position: newPos,
         })
       )
     }

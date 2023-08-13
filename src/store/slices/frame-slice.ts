@@ -26,8 +26,8 @@ const initialState: IFrameState = {
     description: null,
     content: null,
   },
-  width: 1080,
-  height: 1080,
+  width: 1024,
+  height: 1024,
   scale: 1,
 }
 

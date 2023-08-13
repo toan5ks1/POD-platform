@@ -10,7 +10,7 @@ export default function DesignPage() {
   const src = "/images/resources/t-shirt/t-shirt-front.png"
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex h-full items-center justify-center">
       <Frame stageRef={stageRef} initialImage={src} />
     </div>
   )

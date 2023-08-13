@@ -142,11 +142,9 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
   return (
     <div className="h-full overflow-hidden">
       <Stage
-        // width={width * scale}
-        // height={height * scale}
-        width={920 * scale}
-        height={640 * scale}
-        style={{ backgroundColor: "white" }}
+        width={width * scale}
+        height={height * scale}
+        style={{ backgroundColor: "black" }}
         scaleX={scale}
         scaleY={scale}
         draggable={true}
@@ -159,12 +157,10 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
         <Layer>
           <KonvaImage
             image={konvaImage}
-            width={920}
-            height={640}
-            // x={-100}
-            // y={-100}
-            x={((1 - scale) * 920) / 2}
-            y={((1 - scale) * 640) / 2}
+            width={width}
+            height={height}
+            // x={100}
+            y={100}
           />
           {sortStageObject().map((obj) => (
             <React.Fragment key={obj.id}>
