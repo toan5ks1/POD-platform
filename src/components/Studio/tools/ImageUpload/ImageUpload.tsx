@@ -11,6 +11,7 @@ const ImageUpload = () => {
   const { createOne } = useStageObject()
 
   const addImageToStage = (img: FileWithPreview) => {
+    console.log(img)
     createOne({
       src: img.preview,
       ...DEFAULT_IMAGE_OBJECT,
@@ -34,16 +35,16 @@ const ImageUpload = () => {
               onClick={() => addImageToStage(file)}
             />
           ))}
-          <FileDialog
-            setValue={() => {}}
-            name="images"
-            maxFiles={3}
-            maxSize={1024 * 1024 * 4}
-            files={files}
-            setFiles={setFiles}
-          />
         </div>
       ) : null}
+      <FileDialog
+        setValue={() => {}}
+        name="images"
+        maxFiles={3}
+        maxSize={1024 * 1024 * 4}
+        files={files}
+        setFiles={setFiles}
+      />
     </div>
   )
 }

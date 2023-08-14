@@ -79,24 +79,24 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
     resetObjectSelect()
   }, [])
 
-  // useEffect(() => {
-  //   const content = stage.content
-  //   resetObjectSelect()
-  //   if (JSON.stringify(content) === JSON.stringify(stageObjects)) {
-  //     return
-  //   }
-  //   if (
-  //     content === null ||
-  //     content === undefined ||
-  //     content === '""' ||
-  //     !content.length
-  //   ) {
-  //     resetAll()
-  //     return
-  //   }
+  useEffect(() => {
+    const content = stage.content
+    resetObjectSelect()
+    if (JSON.stringify(content) === JSON.stringify(stageObjects)) {
+      return
+    }
+    if (
+      content === null ||
+      content === undefined ||
+      content === '""' ||
+      !content.length
+    ) {
+      resetAll()
+      return
+    }
 
-  //   replaceAll(content as StageObject[])
-  // }, [stage.id, stage.content])
+    replaceAll(content as StageObject[])
+  }, [stage.id, stage.content])
 
   const checkDeselect = (
     e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
@@ -143,7 +143,6 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
       <Stage
         width={boxWidth}
         height={boxHeight}
-        // style={{ backgroundColor: "black" }}
         scaleX={scale}
         scaleY={scale}
         draggable={true}
@@ -151,15 +150,15 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
         onMouseDown={checkDeselect}
         onTouchStart={checkDeselect}
         onWheel={handleZoom}
-        onDragMove={handleDragMoveStage}
+        // onDragMove={handleDragMoveStage}
       >
         <Layer>
           <KonvaImage
             image={konvaImage}
-            width={920}
-            height={920}
-            x={(boxWidth - 920 * scale) / 2}
-            y={(boxHeight - 920 * scale) / 2 + EDITING_TOOLBAR_HEIGHT}
+            width={800}
+            height={800}
+            x={(boxWidth - 800 * scale) / 2}
+            y={(boxHeight - 800 * scale) / 2 + EDITING_TOOLBAR_HEIGHT}
           />
           {sortStageObject().map((obj) => (
             <React.Fragment key={obj.id}>
