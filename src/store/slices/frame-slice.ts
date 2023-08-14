@@ -26,9 +26,9 @@ const initialState: IFrameState = {
     description: null,
     content: null,
   },
-  width: 1024,
-  height: 1024,
-  scale: 1,
+  width: 4000,
+  height: 4000,
+  scale: 10,
 }
 
 const frameSlice = createSlice({

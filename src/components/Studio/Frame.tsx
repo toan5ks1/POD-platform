@@ -2,7 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { loadGoogleFontsDefaultVariants } from "@/utils/load-google-fonts-default-variants"
 import type Konva from "konva"
 import { type KonvaEventObject } from "konva/lib/Node"
@@ -13,7 +13,7 @@ import {
   type StageObject,
   type StageTextObjectData,
 } from "@/types/stage-object"
-import { DEFAULT_IMAGE_OBJECT } from "@/config/stage-object"
+import { EDITING_TOOLBAR_HEIGHT } from "@/config/components"
 import { useAppSelector } from "@/hooks/use-app-selector"
 import useHotkeySetup from "@/hooks/use-hotkey-setup"
 import useKonvaImage from "@/hooks/use-konva-image"
@@ -54,6 +54,7 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
   useHotkeySetup(transformers)
 
   const { width, height, scale, stage } = useAppSelector((state) => state.frame)
+
   const { boxWidth, boxHeight, handleZoom, handleDragMoveStage } =
     useStageResize({ stageRef })
 
@@ -63,9 +64,7 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
 
   useKonvaImage({
     initialImage,
-    onLoad: (imgElement) => {
-      setKonvaImage(imgElement)
-    },
+    onLoad: setKonvaImage,
   })
 
   useEffect(() => {
@@ -80,24 +79,24 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
     resetObjectSelect()
   }, [])
 
-  useEffect(() => {
-    const content = stage.content
-    resetObjectSelect()
-    if (JSON.stringify(content) === JSON.stringify(stageObjects)) {
-      return
-    }
-    if (
-      content === null ||
-      content === undefined ||
-      content === '""' ||
-      !content.length
-    ) {
-      resetAll()
-      return
-    }
+  // useEffect(() => {
+  //   const content = stage.content
+  //   resetObjectSelect()
+  //   if (JSON.stringify(content) === JSON.stringify(stageObjects)) {
+  //     return
+  //   }
+  //   if (
+  //     content === null ||
+  //     content === undefined ||
+  //     content === '""' ||
+  //     !content.length
+  //   ) {
+  //     resetAll()
+  //     return
+  //   }
 
-    replaceAll(content as StageObject[])
-  }, [stage.id, stage.content])
+  //   replaceAll(content as StageObject[])
+  // }, [stage.id, stage.content])
 
   const checkDeselect = (
     e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
@@ -140,11 +139,11 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
   }
 
   return (
-    <div className="h-full overflow-hidden">
+    <div className="flex h-full w-full items-center justify-center">
       <Stage
-        width={width * scale}
-        height={height * scale}
-        style={{ backgroundColor: "black" }}
+        width={boxWidth}
+        height={boxHeight}
+        // style={{ backgroundColor: "black" }}
         scaleX={scale}
         scaleY={scale}
         draggable={true}
@@ -157,10 +156,10 @@ const Frame = ({ stageRef, initialImage }: IProps) => {
         <Layer>
           <KonvaImage
             image={konvaImage}
-            width={width}
-            height={height}
-            // x={100}
-            y={100}
+            width={920}
+            height={920}
+            x={(boxWidth - 920 * scale) / 2}
+            y={(boxHeight - 920 * scale) / 2 + EDITING_TOOLBAR_HEIGHT}
           />
           {sortStageObject().map((obj) => (
             <React.Fragment key={obj.id}>

@@ -2,7 +2,7 @@ import { useEffect } from "react"
 
 type UseKonvaImageProps = {
   initialImage: string
-  onLoad?: (image: HTMLImageElement) => void
+  onLoad: (image: HTMLImageElement) => void
 }
 
 function useKonvaImage({ initialImage, onLoad }: UseKonvaImageProps) {
@@ -11,7 +11,7 @@ function useKonvaImage({ initialImage, onLoad }: UseKonvaImageProps) {
     imgElement.src = initialImage
 
     imgElement.onload = () => {
-      onLoad?.(imgElement)
+      onLoad(imgElement)
     }
   }, [initialImage, onLoad])
 }

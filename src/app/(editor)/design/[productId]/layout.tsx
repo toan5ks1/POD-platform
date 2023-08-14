@@ -22,7 +22,7 @@ export default function DesignLayout({ children, params }: DesignLayoutProps) {
   return (
     <Provider store={store}>
       <div className="flex h-[calc(100vh-3.5rem)] flex-row overflow-hidden ">
-        <div className="relative h-full w-3/4 overflow-hidden bg-muted pb-8">
+        <div className="relative h-full w-3/4 overflow-hidden bg-muted">
           <div className="absolute z-30 flex h-min w-full justify-between px-4 pt-6">
             <EditingToolbar />
             <DesignTabs productId={productId} />

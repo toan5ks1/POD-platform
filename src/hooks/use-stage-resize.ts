@@ -30,17 +30,11 @@ const useStageResize = ({ stageRef }: Props) => {
   const setStageSize = () => {
     const toolbar = document.querySelector("#toolbar") as HTMLElement
     const navbar = document.querySelector("#navbar") as HTMLElement
-    const editingToolbar = document.querySelector(
-      "#editing_toolbar"
-    ) as HTMLElement
-    if (toolbar && navbar && editingToolbar) {
-      const w =
-        window.innerWidth - toolbar.offsetWidth - FRAME_CONTAINER_PADDING * 2
+
+    if (toolbar && navbar) {
+      const w = window.innerWidth - toolbar.offsetWidth
       const h =
-        window.innerHeight -
-        navbar.offsetHeight -
-        editingToolbar.offsetHeight -
-        FRAME_CONTAINER_PADDING * 2
+        window.innerHeight - navbar.offsetHeight + FRAME_CONTAINER_PADDING
 
       setBoxWidth(w)
       setBoxHeight(h)
@@ -57,6 +51,11 @@ const useStageResize = ({ stageRef }: Props) => {
 
   useEffect(() => {
     setStageSize()
+    window.addEventListener("resize", setStageSize)
+
+    return () => {
+      window.removeEventListener("resize", setStageSize)
+    }
   }, [width, height])
 
   const setStageCoodrs = () => {
