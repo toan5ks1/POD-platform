@@ -101,6 +101,9 @@ dependencies:
   '@vercel/og':
     specifier: ^0.5.9
     version: 0.5.9
+  '@webtoon/psd':
+    specifier: ^0.4.0
+    version: 0.4.0
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -4205,6 +4208,10 @@ packages:
       '@resvg/resvg-wasm': 2.4.1
       satori: 0.10.1
       yoga-wasm-web: 0.3.3
+    dev: false
+
+  /@webtoon/psd@0.4.0:
+    resolution: {integrity: sha512-ztriE8oFOamRrV9opBURDy+JMiyhur2//vOXsC5CgdnYCB0L1Lnaag4NzP8N+NFCj7uNz9JRYtPmAbQMSDLIsQ==}
     dev: false
 
   /abbrev@1.1.1:

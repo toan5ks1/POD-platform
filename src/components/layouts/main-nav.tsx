@@ -9,7 +9,7 @@ import * as React from "react"
 import Link from "next/link"
 import type { MainNavItem } from "@/types"
 import { db } from "@/db"
-import { Category, category } from "@/db/schema"
+import { Category } from "@/db/schema"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {
@@ -26,7 +26,6 @@ import { getCategoryAction } from "@/app/_actions/category"
 
 interface MainNavProps {
   items?: MainNavItem[]
-  
 }
 
 export function MainNav({ items }: MainNavProps) {
@@ -37,14 +36,14 @@ export function MainNav({ items }: MainNavProps) {
     image: "category/64c67612169dd-1690727954/image 10.png",
     tags: JSON.parse("[{\"value\":\"ádasdas\"}]".replace(/\\"/g, '"')),
     createdAt: null
-}]);
+  }]);
 
   React.useEffect(() => {
     async function fetchCategoryData() {
       try {
         const categoryTransaction = await getCategoryAction({
           limit: 10,
-          offset: 1,
+          offset: 0,
         });
         setCategoryItems(categoryTransaction.items);
       } catch (error) {
@@ -54,7 +53,6 @@ export function MainNav({ items }: MainNavProps) {
 
     fetchCategoryData();
   }, []);
-  console.log(categoryItems)
 
   return (
     <div className="hidden gap-6 lg:flex">
@@ -85,24 +83,26 @@ export function MainNav({ items }: MainNavProps) {
               item?.items ? (
                 <Link key={item.title} href={item?.href ? item.href : ''}>
                   <NavigationMenuItem key={item.title}>
-                    <NavigationMenuTrigger className="h-auto capitalize" autoFocus={item?.items?.length > 1}>
-                      {item.title}
-                    </NavigationMenuTrigger>
-                    {item.items.length > 0 && (
+                    <Link href={item.title}>
+                      <NavigationMenuTrigger className="h-auto capitalize" autoFocus={item?.items?.length > 1}>
+                        {item.title}
+                      </NavigationMenuTrigger>
+                    </Link>
+                    {item.items.length > 0 ? (
                       <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                          {categoryItems.map((item) => (
+                          {categoryItems.map((itemChild) => (
                             <ListItem
-                              key={item.name}
-                              title={item.name}
-                              href={'/products'}
+                              key={itemChild.name}
+                              title={itemChild.name}
+                              href={item.title === 'resource' ? `/resources?categories=${itemChild.name}` : `/products?categories=${itemChild.name}`}
                             >
                               {item.desc}
                             </ListItem>
                           ))}
                         </ul>
                       </NavigationMenuContent>
-                    )}
+                    ):(<></>)}
                   </NavigationMenuItem>
                 </Link>
               ) : (

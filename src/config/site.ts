@@ -28,12 +28,6 @@ export const siteConfig = {
       description: "Home page.",
       items: [],
     },
-    // {
-    //   title: "products",
-    //   href:'/products',
-    //   description: "Products page.",
-    //   items: [...category.columns.map()],
-    // },
     ...productCategories.map((category) => ({
       title: category.title,
       items: category.subcategories.length > 0 ? [

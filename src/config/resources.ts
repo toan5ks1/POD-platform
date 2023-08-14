@@ -1,4 +1,4 @@
-import { type Product } from "@/db/schema"
+import { type Resource } from "@/db/schema"
 import type { Option } from "@/types"
 
 
@@ -20,28 +20,10 @@ export const sortOptions = [
   },
 ]
 
-export const productCategories = [
+export const resourceCategories = [
   {
     title: "resources",
     href: "/resources",
-    image: "/images/skateboard-one.webp",
-    subcategories: [      
-    {
-      title: "Hardware",
-      description: "The hardware that goes on the board.",
-      image: "/images/hardware-one.webp",
-      slug: "hardware",
-    },
-    {
-      title: "Tools",
-      description: "The tools that go with the board.",
-      image: "/images/tool-one.webp",
-      slug: "tools",
-    },],
-  },
-  {
-    title: "products",
-    href: "/products",
     image: "/images/skateboard-one.webp",
     subcategories: [
       {
@@ -74,6 +56,18 @@ export const productCategories = [
         image: "/images/griptape-one.webp",
         slug: "griptape",
       },
+      {
+        title: "Hardware",
+        description: "The hardware that goes on the board.",
+        image: "/images/hardware-one.webp",
+        slug: "hardware",
+      },
+      {
+        title: "Tools",
+        description: "The tools that go with the board.",
+        image: "/images/tool-one.webp",
+        slug: "tools",
+      },
     ],
   },
   {
@@ -94,7 +88,7 @@ export const productCategories = [
   }[] | null
 }[]
 
-export const productTags = [
+export const resourceTags = [
   "new",
   "sale",
   "bestseller",
@@ -109,7 +103,7 @@ export function getSubcategories(category?: string): Option[] {
   if (!category) return []
 
   const subcategories =
-    productCategories
+    resourceCategories
       .find((c) => c.title === category)
       ?.subcategories.map((s) => ({
         label: s.title,

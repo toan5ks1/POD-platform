@@ -132,8 +132,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  className="min-w-[260px]"
-                />
+                  className="min-w-[260px]" tag={""}
+                  />
               ))}
             </div>
           </div>

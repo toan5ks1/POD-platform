@@ -1,11 +1,11 @@
 import { type Metadata } from "next"
-import { products } from "@/db/schema"
+import { resources } from "@/db/schema"
 import { env } from "@/env.mjs"
 
 import { Header } from "@/components/header"
-import { Products } from "@/components/products"
+import { Resources } from "@/components/resources"
 import { Shell } from "@/components/shells/shell"
-import { getProductsAction } from "@/app/_actions/product"
+import { getResourcesAction } from "@/app/_actions/resource"
 import { getCategoryAction } from "@/app/_actions/category"
 import { getStoresAction } from "@/app/_actions/store"
 
@@ -14,19 +14,19 @@ import { getStoresAction } from "@/app/_actions/store"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "Products",
-  description: "Buy products from our stores",
+  title: "Resources",
+  description: "Buy resources from our stores",
 }
 
-interface ProductsPageProps {
+interface ResourcesPageProps {
   searchParams: {
     [key: string]: string | string[] | undefined
   }
 }
 
-export default async function ProductsPage({
+export default async function ResourcesPage({
   searchParams,
-}: ProductsPageProps) {
+}: ResourcesPageProps) {
   const {
     page,
     per_page,
@@ -38,11 +38,10 @@ export default async function ProductsPage({
     store_page,
   } = searchParams
 
-  // Products transaction
   const limit = typeof per_page === "string" ? parseInt(per_page) : 8
   const offset = typeof page === "string" ? (parseInt(page) - 1) * limit : 0
 
-  const productsTransaction = await getProductsAction({
+  const resourcesTransaction = await getResourcesAction({
     limit,
     offset,
     sort: typeof sort === "string" ? sort : null,
@@ -58,7 +57,7 @@ export default async function ProductsPage({
   })
   
 
-  const pageCount = Math.ceil(productsTransaction.total / limit)
+  const pageCount = Math.ceil(resourcesTransaction.total / limit)
 
   // Stores transaction
   const storesLimit = 25
@@ -78,14 +77,14 @@ export default async function ProductsPage({
   return (
     <Shell>
       <Header
-        title="Products"
-        description="Buy products from our stores"
+        title="Resources"
+        description="Buy Resources from our stores"
         size="sm"
       />
-      <Products
-        products={productsTransaction.items}
+      <Resources
+        resources={resourcesTransaction.items}
         pageCount={pageCount}
-        categories={Object.values(products.category.enumValues)}
+        categories={Object.values(resources.category.enumValues)}
         stores={storesTransaction.items}
         storePageCount={storePageCount}
       />

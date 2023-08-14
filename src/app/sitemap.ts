@@ -7,6 +7,7 @@ import { productCategories } from "@/config/products"
 import { siteConfig } from "@/config/site"
 import { getProductsAction } from "@/app/_actions/product"
 import { getCategoryAction } from "@/app/_actions/category"
+import { getSubCategoryAction } from "@/app/_actions/subcategory"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productsTransaction = await getProductsAction({
@@ -20,15 +21,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     limit: 10,
   })
 
+  const subCategoryTransaction = await getSubCategoryAction({
+    offset: 0,
+    limit: 10,
+  })
+  
+
   const products = productsTransaction.items.map((product) => ({
     url: `${siteConfig.url}/product/${product.id}`,
     lastModified: new Date().toISOString(),
   }))
 
-  // const categories = categoryTransaction.items.map((category) => ({
-  //   url: `${siteConfig.url}/categories/${category.name}`,
-  //   lastModified: new Date().toISOString(),
-  // }))
+  const categories = categoryTransaction.items.map((category) => ({
+    url: `${siteConfig.url}/categories/${category.name}`,
+    lastModified: new Date().toISOString(),
+  }))
+  console.log('alsdkhalksdhjaslkdjaskldjaskldjaskldjaskldjaklsj');
+  console.log(products);
 
   const subcategories = productCategories
     .map((category) =>
@@ -38,6 +47,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
     )
     .flat()
+
+  console.log(subcategories);
 
   const posts = allPosts.map((post) => ({
     url: `${siteConfig.url}/blog/${post.slug}`,
