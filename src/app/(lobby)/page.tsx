@@ -40,7 +40,6 @@ export default async function IndexPage() {
   const allCategory = await db
     .select()
     .from(category)
-    .limit(100)
     .orderBy(desc(category.createdAt))
 
   const allStoresWithProductCount = await db

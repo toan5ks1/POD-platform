@@ -88,6 +88,7 @@ export const category = mysqlTable("category", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 191 }).notNull(),
   desc: text("desc"),
+  slug: text("slug"),
   image: text("image"),
   tags: json("tags").$type<string[] | null>().default(null),
   createdAt: timestamp("created_at").defaultNow(),
@@ -99,8 +100,9 @@ export const subcategory = mysqlTable("subcategory", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 191 }).notNull(),
   desc: text("description"),
+  slug: text("slug"),
   image: text("image"),
-  category: text("category"),
+  category: int("category"),
   tags: json("tags").$type<string[] | null>().default(null),
   createdAt: timestamp("created_at").defaultNow(),
 })

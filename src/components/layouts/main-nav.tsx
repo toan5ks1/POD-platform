@@ -8,8 +8,7 @@
 import * as React from "react"
 import Link from "next/link"
 import type { MainNavItem } from "@/types"
-import { db } from "@/db"
-import { type Category } from "@/db/schema"
+import { type Subcategory, type Category } from "@/db/schema"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {
@@ -23,20 +22,15 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Icons } from "@/components/icons"
 import { getCategoryAction } from "@/app/_actions/category"
+import { getSubCategoryAction } from "@/app/_actions/subcategory"
 
 interface MainNavProps {
   items?: MainNavItem[]
 }
 
 export function MainNav({ items }: MainNavProps) {
-  const [categoryItems, setCategoryItems] = React.useState<Category[]>([{
-    id: 4,
-    name: "Category",
-    desc: "description",
-    image: "category/64c67612169dd-1690727954/category.png",
-    tags: JSON.parse("[{\"value\":\"ádasdas\"}]".replace(/\\"/g, '"')),
-    createdAt: null
-  }]);
+  const [categoryItems, setCategoryItems] = React.useState<Category[]>([]);
+  const [subcategoryItems, setSubcategoryItems] = React.useState<Subcategory[]>([]);
 
   React.useEffect(() => {
     async function fetchCategoryData() {
@@ -46,13 +40,29 @@ export function MainNav({ items }: MainNavProps) {
           offset: 0,
         });
         setCategoryItems(categoryTransaction.items);
+
       } catch (error) {
         console.error("Error fetching category data:", error);
       }
     }
 
+    async function fetchSubCategoryData() {
+      try {
+        const subcategoryTransaction = await getSubCategoryAction({
+          limit: 10,
+          offset: 0,
+        });
+        setSubcategoryItems(subcategoryTransaction.items);
+        console.log(subcategoryTransaction);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+    fetchSubCategoryData();
     fetchCategoryData();
   }, []);
+
+  
 
   return (
     <div className="hidden gap-6 lg:flex">
@@ -90,14 +100,27 @@ export function MainNav({ items }: MainNavProps) {
                     </Link>
                     {item.items.length > 0 ? (
                       <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                          {categoryItems.map((itemChild) => (
+                        <ul className="flex flex-row gap-3 p-4">
+                          {categoryItems.map((itemChild: { name: React.Key | null | undefined; id: number | null }) => (
                             <ListItem
                               key={itemChild.name}
-                              title={itemChild.name}
+                              title={itemChild.name as string}
                               href={item.title === 'resource' ? `/resources?categories=${itemChild.name}` : `/products?categories=${itemChild.name}`}
                             >
                               {item.desc}
+                              <div className="flex flex-col pl-[20] text-sm leading-snug text-muted-foreground">
+                                {subcategoryItems
+                                .filter((subItem) => subItem.category === itemChild.id)
+                                .map((itemSubcategoryChild) => (
+                                  <Link 
+                                    href={item.title === 'resource' ? `/resources?categories=${itemChild.name}?subcategory=${itemSubcategoryChild.slug}` 
+                                    : `/products?categories=${itemChild.name}?subcategory=${itemSubcategoryChild.slug}`} 
+                                    key={itemSubcategoryChild.id} 
+                                    className="rounded-[5px] p-[10px] hover:bg-gray-200">
+                                    {itemSubcategoryChild.name}
+                                  </Link>
+                                ))}
+                              </div>
                             </ListItem>
                           ))}
                         </ul>
@@ -132,6 +155,7 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink asChild>
+        <>
         <Link
           ref={ref}
           href={String(href)}
@@ -141,11 +165,10 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <div className="text-sm font-medium leading-none line-clamp-1 min-w-[200px]">{title}</div>
         </Link>
+        {children}
+        </>
       </NavigationMenuLink>
     </li>
   )

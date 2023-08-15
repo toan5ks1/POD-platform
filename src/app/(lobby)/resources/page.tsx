@@ -59,21 +59,6 @@ export default async function ResourcesPage({
 
   const pageCount = Math.ceil(resourcesTransaction.total / limit)
 
-  // Stores transaction
-  const storesLimit = 25
-  const storesOffset =
-    typeof store_page === "string"
-      ? (parseInt(store_page) - 1) * storesLimit
-      : 0
-
-  const storesTransaction = await getStoresAction({
-    limit: storesLimit,
-    offset: storesOffset,
-    sort: "productCount.desc",
-  })
-
-  const storePageCount = Math.ceil(storesTransaction.total / storesLimit)
-
   return (
     <Shell>
       <Header
@@ -85,8 +70,6 @@ export default async function ResourcesPage({
         resources={resourcesTransaction.items}
         pageCount={pageCount}
         categories={Object.values(resources.category.enumValues)}
-        stores={storesTransaction.items}
-        storePageCount={storePageCount}
       />
     </Shell>
   )

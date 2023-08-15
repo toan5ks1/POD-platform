@@ -107,6 +107,10 @@ export function catchClerkError(err: unknown) {
   }
 }
 
-export function isMacOs(){
-  return window.navigator.userAgent.includes('Mac');
+export function isMacOs() {
+  if (process.browser) {
+    return window.navigator.userAgent.includes('Mac');
+  }
+  return false;
 }
+

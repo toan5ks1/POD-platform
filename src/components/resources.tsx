@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client"
 
 import * as React from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { type Resource, type Store } from "@/db/schema"
+import { Subcategory, type Resource, type Store, Category } from "@/db/schema"
 import type { Option } from "@/types"
 
 import { getSubcategories, sortOptions } from "@/config/resources"
@@ -35,6 +38,9 @@ import { Icons } from "@/components/icons"
 import { MultiSelect } from "@/components/multi-select"
 import { PaginationButton } from "@/components/pagers/pagination-button"
 import { ResourceCard } from "@/components/resource-card"
+
+import { getCategoryAction } from "@/app/_actions/category"
+import { getSubCategoryAction } from "@/app/_actions/subcategory"
 
 interface ResourcesProps {
   resources: Resource[]
@@ -122,7 +128,37 @@ export function Resources({
   const [selectedSubcategories, setSelectedSubcategories] = React.useState<
     Option[] | null
   >(null)
-  const subcategories = getSubcategories(category)
+  const [subcategories, setSubcategories] = React.useState<Subcategory[]>([])
+  const [categoryItems, setCategoryItems] = React.useState<Category[]>([])
+  React.useEffect(() => {
+    async function fetchCategoryData() {
+      try {
+        const categoryTransaction = await getCategoryAction({
+          limit: 10,
+          offset: 0,
+        });
+        setCategoryItems(categoryTransaction.items);
+
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+
+    async function fetchSubCategoryData() {
+      try {
+        const subcategoryTransaction = await getSubCategoryAction({
+          limit: 10,
+          offset: 0,
+        });
+        setSubcategories(subcategoryTransaction.items);
+        console.log(subcategoryTransaction);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+    fetchSubCategoryData();
+    fetchCategoryData();
+  }, []);
 
   React.useEffect(() => {
     startTransition(() => {
@@ -220,14 +256,14 @@ export function Resources({
                     placeholder="Select categories"
                     selected={selectedCategories}
                     setSelected={setSelectedCategories}
-                    options={categories.map((c) => ({
-                      label: toTitleCase(c),
-                      value: c,
+                    options={categoryItems.map((category) => ({
+                      label: category.name,
+                      value: category.slug,
                     }))}
                   />
                 </div>
               ) : null}
-              {category ? (
+              {subcategories ? (
                 <div className="space-y-4">
                   <h3 className="text-sm font-medium tracking-wide text-foreground">
                     Subcategories
@@ -236,92 +272,11 @@ export function Resources({
                     placeholder="Select subcategories"
                     selected={selectedSubcategories}
                     setSelected={setSelectedSubcategories}
-                    options={subcategories}
+                    options={subcategories.map((subcategory) => ({
+                      label: subcategory.name,
+                      value: subcategory.slug,
+                    }))}
                   />
-                </div>
-              ) : null}
-              {stores?.length ? (
-                <div className="space-y-3">
-                  <div className="flex gap-2">
-                    <h3 className="flex-1 text-sm font-medium tracking-wide text-foreground">
-                      Stores
-                    </h3>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                          startTransition(() => {
-                            router.push(
-                              `${pathname}?${createQueryString({
-                                store_page: Number(store_page) - 1,
-                              })}`
-                            )
-                          })
-                        }}
-                        disabled={Number(store_page) === 1 || isPending}
-                      >
-                        <Icons.chevronLeft
-                          className="h-4 w-4"
-                          aria-hidden="true"
-                        />
-                        <span className="sr-only">Previous store page</span>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                          startTransition(() => {
-                            router.push(
-                              `${pathname}?${createQueryString({
-                                store_page: Number(store_page) + 1,
-                              })}`
-                            )
-                          })
-                        }}
-                        disabled={
-                          Number(store_page) === storePageCount || isPending
-                        }
-                      >
-                        <Icons.chevronRight
-                          className="h-4 w-4"
-                          aria-hidden="true"
-                        />
-                        <span className="sr-only">Next store page</span>
-                      </Button>
-                    </div>
-                  </div>
-                  <ScrollArea className="h-96">
-                    <div className="space-y-4">
-                      {stores.map((store) => (
-                        <div
-                          key={store.id}
-                          className="flex items-center space-x-2"
-                        >
-                          <Checkbox
-                            id={`store-${store.id}`}
-                            checked={storeIds?.includes(store.id) ?? false}
-                            onCheckedChange={(value) => {
-                              if (value) {
-                                setStoreIds([...(storeIds ?? []), store.id])
-                              } else {
-                                setStoreIds(
-                                  storeIds?.filter((id) => id !== store.id) ??
-                                    null
-                                )
-                              }
-                            }}
-                          />
-                          <Label
-                            htmlFor={`store-${store.id}`}
-                            className="line-clamp-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            {store.name}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </ScrollArea>
                 </div>
               ) : null}
             </div>

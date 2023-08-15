@@ -83,7 +83,6 @@ export async function getResourcesAction(
             : undefined,
           minPrice ? gte(resources.price, minPrice) : undefined,
           maxPrice ? lte(resources.price, maxPrice) : undefined,
-          storeIds.length ? inArray(resources.storeId, storeIds) : undefined
         )
       )
       .orderBy(
@@ -109,7 +108,6 @@ export async function getResourcesAction(
             : undefined,
           minPrice ? gte(resources.price, minPrice) : undefined,
           maxPrice ? lte(resources.price, maxPrice) : undefined,
-          storeIds.length ? inArray(resources.storeId, storeIds) : undefined
         )
       )
     return {
@@ -152,7 +150,6 @@ export async function addResourceAction(
 
   await db.insert(resources).values({
     ...input,
-    storeId: input.storeId,
     images: input.images,
   })
 
