@@ -9,7 +9,7 @@ import * as React from "react"
 import Link from "next/link"
 import type { MainNavItem } from "@/types"
 import { db } from "@/db"
-import { Category } from "@/db/schema"
+import { type Category } from "@/db/schema"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {
@@ -31,9 +31,9 @@ interface MainNavProps {
 export function MainNav({ items }: MainNavProps) {
   const [categoryItems, setCategoryItems] = React.useState<Category[]>([{
     id: 4,
-    name: "Phan Trí Dũng",
-    desc: "ádasdas",
-    image: "category/64c67612169dd-1690727954/image 10.png",
+    name: "Category",
+    desc: "description",
+    image: "category/64c67612169dd-1690727954/category.png",
     tags: JSON.parse("[{\"value\":\"ádasdas\"}]".replace(/\\"/g, '"')),
     createdAt: null
   }]);
@@ -83,7 +83,7 @@ export function MainNav({ items }: MainNavProps) {
               item?.items ? (
                 <Link key={item.title} href={item?.href ? item.href : ''}>
                   <NavigationMenuItem key={item.title}>
-                    <Link href={item.title}>
+                    <Link href={item.title as string} >
                       <NavigationMenuTrigger className="h-auto capitalize" autoFocus={item?.items?.length > 1}>
                         {item.title}
                       </NavigationMenuTrigger>
