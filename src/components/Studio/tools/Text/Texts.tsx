@@ -54,9 +54,9 @@ const Texts = () => {
 
     if (fonts.length) {
       void loadGoogleFontsDefaultVariants(fontFamilies)
-      //setSelectedFonts(fonts)
+      setSelectedFonts(fonts)
     }
-  }, [query, isLoaded, fontList])
+  }, [query, isLoaded])
 
   const addTextToStage = (options: Partial<StageTextData> = {}) => {
     createOne({

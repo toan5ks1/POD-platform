@@ -21,9 +21,9 @@ const useGetFontListQuery = () => {
       setIsLoaded(true)
       return
     }
-    dispatch(fetchFontList())
+    void dispatch(fetchFontList())
     setIsLoaded(false)
-  }, [dispatch, fontList.length, loading])
+  }, [loading])
 
   return { fontList, isLoaded }
 }

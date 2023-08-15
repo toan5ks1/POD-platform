@@ -51,7 +51,7 @@ const ImageObject = ({ obj, onSelect }: Props) => {
       setSize(newSize)
       updateOne({ id, data: newSize })
     }
-  }, [id, image, load, updateOne])
+  }, [image])
 
   useEffect(() => {
     if (imgRef.current && filterValues.brighten) {

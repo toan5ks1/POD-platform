@@ -73,7 +73,7 @@ const ImageFilters = ({ imageId, data }: Props) => {
         filterValues: filterMap,
       },
     })
-  }, [filters, filterMap, updateOne, imageId])
+  }, [filters, filterMap])
 
   return (
     <div>

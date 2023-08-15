@@ -45,7 +45,7 @@ const EditingToolbar = () => {
 
   useEffect(() => {
     savePast(stageObjects)
-  }, [savePast, stageObjects])
+  }, [stageObjects])
 
   const getSelectedObject = () => {
     if (selected.length === 1 && stageObjects) {
