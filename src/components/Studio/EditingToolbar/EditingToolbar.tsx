@@ -108,12 +108,7 @@ const EditingToolbar = () => {
         </Button>
       </TooltipContainer>
       {renderEditing()}
-      {isLoggedIn && (
-        <>
-          {/* <Spacer /> */}
-          <CanvasContentSave />
-        </>
-      )}
+      {isLoggedIn && <CanvasContentSave />}
     </div>
   )
 }

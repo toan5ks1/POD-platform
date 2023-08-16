@@ -29,7 +29,7 @@ export default function DesignPage({ params }: DesignPageProps) {
         <Frame stageRef={stageRef} initialImage={src} />
       </div>
 
-      <div className="fixed z-30 hidden w-1/4 border-l px-4 md:sticky md:block">
+      <div className="fixed z-30 hidden w-1/4 border-l py-6 pl-4 pr-2 md:sticky md:block">
         <Toolbar stageRef={stageRef} />
       </div>
     </div>

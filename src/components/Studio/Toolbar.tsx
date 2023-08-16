@@ -20,8 +20,11 @@ type Props = {
 
 const Toolbar = ({ stageRef }: Props) => {
   return (
-    <Tabs id="toolbar" className="overflow-y-auto">
-      <TabsList className="absolute right-0 flex h-full w-min flex-col gap-2">
+    <Tabs
+      id="toolbar"
+      className="flex flex-row-reverse justify-between overflow-y-auto"
+    >
+      <TabsList className="flex h-full w-min flex-col justify-start gap-2">
         {TOOLBAR_TABS.map((tab, i) => (
           <TabsTrigger
             key={tab.title}

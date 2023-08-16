@@ -33,7 +33,7 @@ const useImage = (url: string, id: string) => {
 
     img.crossOrigin = "anonymous"
     img.src = url
-  }, [id, removeOne, url])
+  }, [url])
 
   return [imageRef.current, status]
 }

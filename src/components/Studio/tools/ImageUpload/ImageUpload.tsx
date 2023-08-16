@@ -11,7 +11,6 @@ const ImageUpload = () => {
   const { createOne } = useStageObject()
 
   const addImageToStage = (img: FileWithPreview) => {
-    console.log(img)
     createOne({
       src: img.preview,
       ...DEFAULT_IMAGE_OBJECT,

@@ -36,7 +36,7 @@ const FontFamilyMenu = ({ id, fontFamily }: Props) => {
         },
       })
     },
-    [id, updateOne]
+    [id]
   )
 
   return (

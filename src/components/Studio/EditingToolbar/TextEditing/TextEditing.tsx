@@ -14,9 +14,10 @@ type Props = {
 }
 
 const TextEditing = ({ selectedObject }: Props) => {
+  console.log("hitted")
   return (
     <>
-      <FontFamilyMenu
+      {/* <FontFamilyMenu
         id={selectedObject.id}
         fontFamily={selectedObject.data.fontFamily}
       />
@@ -46,7 +47,7 @@ const TextEditing = ({ selectedObject }: Props) => {
         id={selectedObject.id}
         letterSpacing={selectedObject.data.letterSpacing}
         lineHeight={selectedObject.data.lineHeight}
-      />
+      /> */}
     </>
   )
 }

@@ -15,14 +15,11 @@ const useDragHandlers = () => {
 
   const isDragStagePressed = useKeyPress(KeyType.DRAG_STAGE)
 
-  const onDragStart = useCallback(
-    (e: Konva.KonvaEventObject<DragEvent>) => {
-      if (isDragStagePressed) {
-        e.target.stopDrag()
-      }
-    },
-    [isDragStagePressed]
-  )
+  const onDragStart = useCallback((e: Konva.KonvaEventObject<DragEvent>) => {
+    if (isDragStagePressed) {
+      e.target.stopDrag()
+    }
+  }, [])
 
   const onDragEnd = useCallback(
     (e: Konva.KonvaEventObject<DragEvent>, obj: StageObject) => {
@@ -45,7 +42,7 @@ const useDragHandlers = () => {
       })
       e.target.getLayer().batchDraw()
     },
-    [updateOne]
+    []
   )
 
   return { onDragStart, onDragEnd }

@@ -47,7 +47,7 @@ const TextAlignment = ({ id, textAlign }: Props) => {
   }
 
   return (
-    <TooltipContainer tooltip="Alignment" side="bottom">
+    <TooltipContainer tooltip="Alignment">
       <Button
         aria-label="Alignment"
         variant="outline"

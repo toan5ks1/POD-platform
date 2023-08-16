@@ -2,6 +2,7 @@ import { type StageTextData } from "@/types/stage-object"
 import useStageObject from "@/hooks/use-stage-object"
 import { Button } from "@/components/ui/button"
 import { Tooltip } from "@/components/ui/tooltip"
+import { TooltipContainer } from "@/components/shells/tooltip-shell"
 
 type Props = {
   id: string
@@ -61,29 +62,24 @@ const FontStyleSettings = ({ id, fontVariants, webFont, fontStyle }: Props) => {
 
   return (
     <>
-      <Tooltip label="Bold" placement="bottom" openDelay={500}>
+      <TooltipContainer tooltip="Bold">
         <Button
-          isActive={isBoldActive}
-          fontWeight="bold"
-          fontSize="xl"
+          disabled={isBoldAvailable}
+          className="text-xl font-bold"
           onClick={handleBoldClick}
-          isDisabled={isBoldAvailable}
         >
           B
         </Button>
-      </Tooltip>
-      <Tooltip label="Italics" placement="bottom" openDelay={500}>
+      </TooltipContainer>
+      <TooltipContainer tooltip="Italics">
         <Button
-          isActive={isItalicActive}
-          fontStyle="italic"
-          fontSize="xl"
-          fontFamily="Aria"
+          disabled={isItalicAvailable}
+          className="text-xl italic"
           onClick={handleItalicClick}
-          isDisabled={isItalicAvailable}
         >
           I
         </Button>
-      </Tooltip>
+      </TooltipContainer>
     </>
   )
 }
