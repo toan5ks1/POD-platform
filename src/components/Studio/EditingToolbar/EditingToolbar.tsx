@@ -20,14 +20,12 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { TooltipContainer } from "@/components/shells/tooltip-shell"
 
-import CanvasContentSave from "../canvas-actions/CanvasContentSave"
 import ImageEditing from "./ImageEditing/ImageEditing"
 import TextEditing from "./TextEditing/TextEditing"
 
 const EditingToolbar = () => {
   const stageObjects = useAppSelector(stageObjectSelector.selectAll)
   const { selected } = useAppSelector((state) => state.selected)
-  const { isLoggedIn } = useAppSelector((state) => state.auth)
 
   const { savePast, goBack, goForward } = useHistory()
 
@@ -108,7 +106,6 @@ const EditingToolbar = () => {
         </Button>
       </TooltipContainer>
       {renderEditing()}
-      {isLoggedIn && <CanvasContentSave />}
     </div>
   )
 }

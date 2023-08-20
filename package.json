@@ -93,6 +93,7 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
     "three": "^0.154.0",
+    "unsplash-js": "^7.0.18",
     "unstyled-table": "0.0.3-alpha-3",
     "uploadthing": "^5.2.1",
     "valtio": "^1.10.7",

@@ -19,6 +19,7 @@ export const env = createEnv({
     STRIPE_STD_MONTHLY_PRICE_ID: z.string(),
     STRIPE_PRO_MONTHLY_PRICE_ID: z.string(),
     GOOGLE_FONTS_API_KEY: z.string(),
+    UNSPLASH_API_KEY: z.string(),
   },
 
   /**
@@ -51,6 +52,7 @@ export const env = createEnv({
     STRIPE_STD_MONTHLY_PRICE_ID: process.env.STRIPE_STD_MONTHLY_PRICE_ID,
     STRIPE_PRO_MONTHLY_PRICE_ID: process.env.STRIPE_PRO_MONTHLY_PRICE_ID,
     GOOGLE_FONTS_API_KEY: process.env.GOOGLE_FONTS_API_KEY,
+    UNSPLASH_API_KEY: process.env.UNSPLASH_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
