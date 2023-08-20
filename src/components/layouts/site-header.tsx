@@ -36,7 +36,10 @@ export function SiteHeader({ user }: SiteHeaderProps) {
       ?.emailAddress ?? ""
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header
+      id="navbar"
+      className="sticky top-0 z-40 w-full border-b bg-background"
+    >
       <div className="container flex h-16 items-center">
         <MainNav items={siteConfig.mainNav} />
         <MobileNav

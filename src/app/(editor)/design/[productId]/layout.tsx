@@ -1,34 +1,12 @@
-import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
+"use client"
 
-import { DesignTabs } from "@/components/pagers/design-tabs"
-import { Shell } from "@/components/shells/shell"
+import { store } from "@/store/store"
+import { Provider } from "react-redux"
 
 interface DesignLayoutProps {
   children: React.ReactNode
-  params: {
-    productId: string
-  }
 }
 
-export default async function DesignLayout({
-  children,
-  params,
-}: DesignLayoutProps) {
-  const productId = Number(params.productId)
-
-  const user = await currentUser()
-
-  if (!user) {
-    redirect("/signin")
-  }
-
-  return (
-    <Shell variant="sidebar" className="gap-4">
-      <div className="space-y-4 overflow-hidden">
-        <DesignTabs productId={productId} className="flex justify-end" />
-        {children}
-      </div>
-    </Shell>
-  )
+export default function DesignLayout({ children }: DesignLayoutProps) {
+  return <Provider store={store}>{children}</Provider>
 }

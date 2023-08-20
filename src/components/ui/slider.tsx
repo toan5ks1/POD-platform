@@ -26,11 +26,17 @@ const Slider = React.forwardRef<
     >
       <SliderPrimitive.Track
         className={cn(
-          "relative h-2 w-full grow overflow-hidden rounded-full bg-secondary",
+          "relative h-2 w-full grow overflow-hidden rounded-full",
+          variant === "range" ? "bg-secondary" : "bg-primary",
           thickness === "thin" && "h-0.5"
         )}
       >
-        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+        <SliderPrimitive.Range
+          className={cn(
+            "absolute h-full",
+            variant === "range" ? "bg-primary" : "bg-secondary"
+          )}
+        />
       </SliderPrimitive.Track>
       <SliderPrimitive.Thumb
         className={cn(
