@@ -64,19 +64,15 @@ export const resources = mysqlTable("resources", {
   name: varchar("name", { length: 191 }).notNull(),
   description: text("description"),
   images: json("images").$type<StoredFile[] | null>().default(null),
-  category: mysqlEnum("category", [
-    "skateboards",
-    "clothing",
-    "shoes",
-    "accessories",
-  ])
+  category: int("category")
     .notNull()
-    .default("skateboards"),
+    .default(0),
   sizes: json("sizes").$type<Sizes[] | null>().default(null),
   colors: json("colors").$type<Colors[] | null>().default(null),
   subcategory: varchar("subcategory", { length: 191 }),
-  price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
+  price: decimal("costPrice", { precision: 10, scale: 2 }).notNull().default("0"),
   inventory: int("inventory").notNull().default(0),
+  supplier: int("supplierId").notNull().default(0),
   rating: int("rating").notNull().default(0),
   tags: json("tags").$type<string[] | null>().default(null),
   createdAt: timestamp("createdAt").defaultNow(),

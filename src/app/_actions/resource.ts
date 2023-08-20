@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 "use server"
 
@@ -41,16 +43,16 @@ export async function filterResourcesAction(query: string) {
     .orderBy(desc(resources.createdAt))
     .limit(10)
 
-  const resourcesByCategory = Object.values(resources.category.enumValues).map(
-    (category) => ({
-      category,
-      resources: filteredResources.filter(
-        (resource) => resource.category === category
-      ),
-    })
-  )
+  // const resourcesByCategory = Object.values(resources.category.enumValues).map(
+  //   (category) => ({
+  //     category,
+  //     resources: filteredResources.filter(
+  //       (resource) => resource.category === category
+  //     ),
+  //   })
+  // )
 
-  return resourcesByCategory
+  // return resourcesByCategory
 }
 
 export async function getResourcesAction(
@@ -63,9 +65,9 @@ export async function getResourcesAction(
     ]) ?? []
   const [minPrice, maxPrice] = input.price_range?.split("-") ?? []
   const categories =
-    (input.categories?.split(".") as Resource["category"][]) ?? []
+    (input.categories?.split(".") as unknown as Resource["category"][]) ?? []
   const subcategories = input.subcategories?.split(".") ?? []
-  const storeIds = input.store_ids?.split(".").map(Number) ?? []
+  const storeIds = input.store_ids?.split(".").map((str) => parseInt(str, 10)).filter((num) => !isNaN(num)) ?? [];
 
   const { items, total } = await db.transaction(async (tx) => {
     const items = await tx
@@ -140,81 +142,74 @@ export async function addResourceAction(
     images: StoredFile[] | null
   }
 ) {
-  const resourceWithSameName = await db.query.resources.findFirst({
-    where: eq(resources.name, input.name),
-  })
 
-  if (resourceWithSameName) {
-    throw new Error("Resource name already taken.")
-  }
-
-  await db.insert(resources).values({
-    ...input,
-    images: input.images,
-  })
+  // await db.insert(resources).values({
+  //   ...input,
+  //   images: input.images,
+  // })
 
   revalidatePath(`/dashboard/stores/${input.storeId}/resources.`)
 }
 
-export async function updateResourceAction(
-  input: z.infer<typeof resourceSchema> & {
-    storeId: number
-    id: number
-    images: StoredFile[] | null
-  }
-) {
-  const resource = await db.query.resources.findFirst({
-    where: and(eq(resources.id, input.id), eq(resources.storeId, input.storeId)),
-  })
+// export async function updateResourceAction(
+//   input: z.infer<typeof resourceSchema> & {
+//     storeId: number
+//     id: number
+//     images: StoredFile[] | null
+//   }
+// ) {
+//   const resource = await db.query.resources.findFirst({
+//     where: and(eq(resources.id, input.id), eq(resources.storeId, input.storeId)),
+//   })
 
-  if (!resource) {
-    throw new Error("Resource not found.")
-  }
+//   if (!resource) {
+//     throw new Error("Resource not found.")
+//   }
 
-  await db.update(resources).set(input).where(eq(resources.id, input.id))
+//   await db.update(resources).set(input).where(eq(resources.id, input.id))
 
-  revalidatePath(`/dashboard/stores/${input.storeId}/resources/${input.id}`)
-}
+//   revalidatePath(`/dashboard/stores/${input.storeId}/resources/${input.id}`)
+// }
 
-export async function deleteResourceAction(
-  input: z.infer<typeof getResourceSchema>
-) {
-  and(eq(resources.id, input.id), eq(resources.storeId, input.storeId)),
-    await db
-      .delete(resources)
-      .where(
-        and(eq(resources.id, input.id), eq(resources.storeId, input.storeId))
-      )
+// export async function deleteResourceAction(
+//   input: z.infer<typeof getResourceSchema>
+// ) {
+//   and(eq(resources.id, input.id), eq(resources.storeId, input.storeId)),
+//     await db
+//       .delete(resources)
+//       .where(
+//         and(eq(resources.id, input.id), eq(resources.storeId, input.storeId))
+//       )
 
-  revalidatePath(`/dashboard/stores/${input.storeId}/resources`)
-}
+//   revalidatePath(`/dashboard/stores/${input.storeId}/resources`)
+// }
 
-export async function getNextResourceIdAction(
-  input: z.infer<typeof getResourceSchema>
-) {
-  const resource = await db.query.resources.findFirst({
-    where: and(eq(resources.storeId, input.storeId), gt(resources.id, input.id)),
-    orderBy: asc(resources.id),
-  })
+// export async function getNextResourceIdAction(
+//   input: z.infer<typeof getResourceSchema>
+// ) {
+//   const resource = await db.query.resources.findFirst({
+//     where: and(eq(resources.storeId, input.storeId), gt(resources.id, input.id)),
+//     orderBy: asc(resources.id),
+//   })
 
-  if (!resource) {
-    throw new Error("Resource not found.")
-  }
+//   if (!resource) {
+//     throw new Error("Resource not found.")
+//   }
 
-  return resource.id
-}
+//   return resource.id
+// }
 
-export async function getPreviousResourceIdAction(
-  input: z.infer<typeof getResourceSchema>
-) {
-  const resource = await db.query.resources.findFirst({
-    where: and(eq(resources.storeId, input.storeId), lt(resources.id, input.id)),
-    orderBy: desc(resources.id),
-  })
+// export async function getPreviousResourceIdAction(
+//   input: z.infer<typeof getResourceSchema>
+// ) {
+//   const resource = await db.query.resources.findFirst({
+//     where: and(eq(resources.storeId, input.storeId), lt(resources.id, input.id)),
+//     orderBy: desc(resources.id),
+//   })
 
-  if (!resource) {
-    throw new Error("Resource not found.")
-  }
+//   if (!resource) {
+//     throw new Error("Resource not found.")
+//   }
 
-  return resource.id
-}
+//   return resource.id
+// }

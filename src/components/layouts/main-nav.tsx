@@ -105,7 +105,7 @@ export function MainNav({ items }: MainNavProps) {
                             <ListItem
                               key={itemChild.name}
                               title={itemChild.name as string}
-                              href={item.title === 'resource' ? `/resources?categories=${itemChild.name}` : `/products?categories=${itemChild.name}`}
+                              href={item.title === 'resources' ? `/resources?categories=${itemChild.id}` : `/products?categories=${itemChild.name}`}
                             >
                               {item.desc}
                               <div className="flex flex-col pl-[20] text-sm leading-snug text-muted-foreground">
@@ -113,8 +113,8 @@ export function MainNav({ items }: MainNavProps) {
                                 .filter((subItem) => subItem.category === itemChild.id)
                                 .map((itemSubcategoryChild) => (
                                   <Link 
-                                    href={item.title === 'resource' ? `/resources?categories=${itemChild.name}?subcategory=${itemSubcategoryChild.slug}` 
-                                    : `/products?categories=${itemChild.name}?subcategory=${itemSubcategoryChild.slug}`} 
+                                    href={item.title === 'resources' ? `/resources?categories=${itemChild.id}?subcategory=${itemSubcategoryChild.slug}` 
+                                    : `/products?category=${itemChild.id}?subcategory=${itemSubcategoryChild.slug}`} 
                                     key={itemSubcategoryChild.id} 
                                     className="rounded-[5px] p-[10px] hover:bg-gray-200">
                                     {itemSubcategoryChild.name}

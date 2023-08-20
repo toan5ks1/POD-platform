@@ -4,7 +4,7 @@
 import * as React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Resource } from "@/db/schema"
+import { Category, type Resource } from "@/db/schema"
 import { toast } from "sonner"
 
 import { cn, formatPrice } from "@/lib/utils"
@@ -21,8 +21,9 @@ import {
 import { Icons } from "@/components/icons"
 import { addToCartAction } from "@/app/_actions/cart"
 
-interface ResourceCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ResourceCardProps {
   resource: Resource
+  className: string,
   tag: string
   variant?: "default" | "switchable"
   isAddedToCart?: boolean

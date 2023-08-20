@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { subcategory } from "@/db/schema"
 import * as z from "zod"
 
@@ -6,11 +7,7 @@ export const subcategorySchema = z.object({
     message: "Must be at least 1 character",
   }),
   description: z.string().optional(),
-  category: z
-    .enum(subcategory.category.enumValues, {
-      required_error: "Must be a valid category",
-    })
-    .default(subcategory.category.enumValues[0]),
+  category:  z.number(),
   subcategory: z.string().optional().nullable(),
   price: z.string().regex(/^\d+(\.\d{1,2})?$/, {
     message: "Must be a valid price",

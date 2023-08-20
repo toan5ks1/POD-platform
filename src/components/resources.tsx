@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -257,8 +258,8 @@ export function Resources({
                     selected={selectedCategories}
                     setSelected={setSelectedCategories}
                     options={categoryItems.map((category) => ({
-                      label: category.name,
-                      value: category.slug,
+                      label: category.name as string,
+                      value: category.slug as string,
                     }))}
                   />
                 </div>
@@ -273,8 +274,8 @@ export function Resources({
                     selected={selectedSubcategories}
                     setSelected={setSelectedSubcategories}
                     options={subcategories.map((subcategory) => ({
-                      label: subcategory.name,
-                      value: subcategory.slug,
+                      label: subcategory.name as string,
+                      value: subcategory.slug as string,
                     }))}
                   />
                 </div>
@@ -352,7 +353,7 @@ export function Resources({
       ) : null}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {resources.map((resource) => (
-          <ResourceCard key={resource.id} resource={resource} tag={''}/>
+          <ResourceCard key={resource.id} resource={resource} tag={''} className={""}/>
         ))}
       </div>
       {resources.length ? (
