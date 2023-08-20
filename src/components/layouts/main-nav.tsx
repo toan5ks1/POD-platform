@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable react/jsx-no-undef */
 "use client"
 
 import * as React from "react"
 import Link from "next/link"
 import type { MainNavItem } from "@/types"
-
+import { type Subcategory, type Category } from "@/db/schema"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import {
@@ -16,12 +21,49 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { Icons } from "@/components/icons"
+import { getCategoryAction } from "@/app/_actions/category"
+import { getSubCategoryAction } from "@/app/_actions/subcategory"
 
 interface MainNavProps {
   items?: MainNavItem[]
 }
 
 export function MainNav({ items }: MainNavProps) {
+  const [categoryItems, setCategoryItems] = React.useState<Category[]>([]);
+  const [subcategoryItems, setSubcategoryItems] = React.useState<Subcategory[]>([]);
+
+  React.useEffect(() => {
+    async function fetchCategoryData() {
+      try {
+        const categoryTransaction = await getCategoryAction({
+          limit: 10,
+          offset: 0,
+        });
+        setCategoryItems(categoryTransaction.items);
+
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+
+    async function fetchSubCategoryData() {
+      try {
+        const subcategoryTransaction = await getSubCategoryAction({
+          limit: 10,
+          offset: 0,
+        });
+        setSubcategoryItems(subcategoryTransaction.items);
+        console.log(subcategoryTransaction);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+    fetchSubCategoryData();
+    fetchCategoryData();
+  }, []);
+
+  
+
   return (
     <div className="hidden gap-6 lg:flex">
       <Link
@@ -37,64 +79,55 @@ export function MainNav({ items }: MainNavProps) {
       <NavigationMenu>
         <NavigationMenuList>
           {items?.[0]?.items ? (
-            <NavigationMenuItem>
-              <NavigationMenuTrigger className="h-auto">
-                {items[0].title}
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        aria-label="Home"
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
-                      >
-                        <Icons.logo className="h-6 w-6" aria-hidden="true" />
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          {siteConfig.name}
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          {siteConfig.description}
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  {items[0].items.map((item) => (
-                    <ListItem
-                      key={item.title}
-                      title={item.title}
-                      href={item.href}
-                    >
-                      {item.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            <Link href={String(items?.[0].href)}>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="h-auto" autoFocus={false}>
+                  {items[0].title}
+                </NavigationMenuTrigger>
+              </NavigationMenuItem>
+            </Link>
           ) : null}
           {items
             ?.filter((item) => item.title !== items[0]?.title)
             .map((item) =>
               item?.items ? (
-                <NavigationMenuItem key={item.title}>
-                  <NavigationMenuTrigger className="h-auto capitalize">
-                    {item.title}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                      {item.items.map((item) => (
-                        <ListItem
-                          key={item.title}
-                          title={item.title}
-                          href={item.href}
-                        >
-                          {item.description}
-                        </ListItem>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                <Link key={item.title} href={item?.href ? item.href : ''}>
+                  <NavigationMenuItem key={item.title}>
+                    <Link href={item.title as string} >
+                      <NavigationMenuTrigger className="h-auto capitalize" autoFocus={item?.items?.length > 1}>
+                        {item.title}
+                      </NavigationMenuTrigger>
+                    </Link>
+                    {item.items.length > 0 ? (
+                      <NavigationMenuContent>
+                        <ul className="flex flex-row gap-3 p-4">
+                          {categoryItems.map((itemChild: { name: React.Key | null | undefined; id: number | null }) => (
+                            <ListItem
+                              key={itemChild.name}
+                              title={itemChild.name as string}
+                              href={item.title === 'resources' ? `/resources?categories=${itemChild.id}` : `/products?categories=${itemChild.name}`}
+                            >
+                              {item.desc}
+                              <div className="flex flex-col pl-[20] text-sm leading-snug text-muted-foreground">
+                                {subcategoryItems
+                                .filter((subItem) => subItem.category === itemChild.id)
+                                .map((itemSubcategoryChild) => (
+                                  <Link 
+                                    href={item.title === 'resources' ? `/resources?categories=${itemChild.id}?subcategory=${itemSubcategoryChild.slug}` 
+                                    : `/products?category=${itemChild.id}?subcategory=${itemSubcategoryChild.slug}`} 
+                                    key={itemSubcategoryChild.id} 
+                                    className="rounded-[5px] p-[10px] hover:bg-gray-200">
+                                    {itemSubcategoryChild.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </ListItem>
+                          ))}
+                        </ul>
+                      </NavigationMenuContent>
+                    ):(<></>)}
+                  </NavigationMenuItem>
+                </Link>
               ) : (
                 item.href && (
                   <NavigationMenuItem key={item.title}>
@@ -122,6 +155,7 @@ const ListItem = React.forwardRef<
   return (
     <li>
       <NavigationMenuLink asChild>
+        <>
         <Link
           ref={ref}
           href={String(href)}
@@ -131,11 +165,10 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <div className="text-sm font-medium leading-none line-clamp-1 min-w-[200px]">{title}</div>
         </Link>
+        {children}
+        </>
       </NavigationMenuLink>
     </li>
   )

@@ -10,7 +10,7 @@ await import("./src/env.mjs")
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["uploadthing.com"],
+    domains: ["uploadthing.com","cms-wearify.s3.ap-southeast-1.amazonaws.com"],
   },
   experimental: {
     serverActions: true,

@@ -7,13 +7,19 @@ import type { cartItemSchema, checkoutItemSchema } from "@/lib/validations/cart"
 import { type Icons } from "@/components/icons"
 
 export interface NavItem {
-  title: string
+  id?: string
+  name?: string
+  title?: string
   href?: string
   disabled?: boolean
   external?: boolean
   icon?: keyof typeof Icons
   label?: string
+  desc?: string
   description?: string
+  createdAt?: Date
+  image?: string
+  tags?: string[]
 }
 
 export interface NavItemWithChildren extends NavItem {

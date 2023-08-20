@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/alt-text */
 import Image from "next/image"
 import Link from "next/link"
 import { db } from "@/db"
-import { products, stores } from "@/db/schema"
+import { products, stores, category } from "@/db/schema"
 import { desc, eq, sql } from "drizzle-orm"
 import Balance from "react-wrap-balancer"
 
@@ -35,6 +36,11 @@ export default async function IndexPage() {
     .from(products)
     .limit(8)
     .orderBy(desc(products.createdAt))
+  
+  const allCategory = await db
+    .select()
+    .from(category)
+    .orderBy(desc(category.createdAt))
 
   const allStoresWithProductCount = await db
     .select({
@@ -49,137 +55,93 @@ export default async function IndexPage() {
     .groupBy(stores.id)
     .orderBy(desc(sql<number>`count(${products.id})`))
 
-  async function getGithubStars(): Promise<number | null> {
-    try {
-      const response = await fetch(
-        "https://api.github.com/repos/sadmann7/skateshop",
-        {
-          headers: {
-            Accept: "application/vnd.github+json",
-          },
-          next: {
-            revalidate: 60,
-          },
-        }
-      )
-
-      if (!response.ok) {
-        return null
-      }
-
-      const data = (await response.json()) as { stargazers_count: number }
-
-      return data.stargazers_count
-    } catch (error) {
-      return null
-    }
-  }
-
-  const githubStars = await getGithubStars()
 
   return (
     <Shell as="div" className="gap-12">
       <section
-        id="hero"
-        aria-labelledby="hero-heading"
-        className="mx-auto flex w-full max-w-[64rem] flex-col items-center justify-center gap-4 pb-8 pt-6 text-center md:pb-12 md:pt-10 lg:py-28"
+        id="banner"
       >
-        {githubStars ? (
-          <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
-            <Badge className="rounded-md px-3.5 py-1.5" variant="secondary">
-              <Icons.gitHub className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-              {githubStars} stars on GitHub
-              <span className="sr-only">GitHub</span>
-            </Badge>
-          </Link>
-        ) : null}
-        <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl lg:leading-[1.1]">
-          An e-commerce skateshop built with everything new in Next.js 13
-        </h1>
-        <Balance className="max-w-[46rem] text-lg text-muted-foreground sm:text-xl">
-          Buy and sell skateboarding products from independent brands and stores
-          around the world
-        </Balance>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/products"
-            className={cn(
-              buttonVariants({
-                size: "lg",
-              })
-            )}
-          >
-            Buy Now
-          </Link>
-          <Link
-            href="/dashboard/stores"
-            className={cn(
-              buttonVariants({
-                variant: "outline",
-                size: "lg",
-              })
-            )}
-          >
-            Sell Now
-          </Link>
+        <h1 className="text-[40px] font-bold">Wearify Product</h1>
+        <div className="mt-[20px] w-full rounded-[5px] bg-[#B990FF] py-[20px]">
+          <div className="flex flex-row p-[20px]">
+            <div className="flex flex-col">
+              <h1 className="text-[40px] font-bold">Wearify presents:</h1>
+              <h1 className="text-[40px] font-bold">Amplified</h1>
+              <p className="font-normal">Turn up the volume on your business. Learn, share, and connect with Print-On-Demand rockstars from around the world.</p>
+              <div className="mt-[20px] flex w-[200px] items-center justify-center rounded-[5px] bg-white p-[10px]">
+                <span className="text-center font-bold text-black">Claim Your Seat</span>
+              </div>
+            </div>
+            <div></div>
+          </div>
         </div>
       </section>
       <section
         id="categories"
         aria-labelledby="categories-heading"
-        className="space-y-6 py-6 md:pt-10 lg:pt-24"
+        className="space-y-6 py-6"
       >
         <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-          <h2 className="text-3xl font-bold leading-[1.1] sm:text-3xl md:text-5xl">
-            Categories
+          <h2 className="text-[24px] font-bold leading-[1.1]">
+            Bestsellers
           </h2>
-          <Balance className="max-w-[46rem] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Explore our categories and find the best products for you
-          </Balance>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {productCategories.map((category) => (
-            <Link
-              aria-label={`Go to ${category.title}`}
-              key={category.title}
-              href={`/categories/${category.title}`}
-            >
-              <div className="group relative overflow-hidden rounded-md">
-                <AspectRatio ratio={4 / 5}>
-                  <div className="absolute inset-0 z-10 bg-black/60 transition-colors group-hover:bg-black/70" />
-                  <Image
-                    src={category.image}
-                    alt={category.title}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                    priority
-                  />
-                </AspectRatio>
-                <div className="absolute inset-0 z-20 flex items-center justify-center">
-                  <h3 className="text-3xl font-medium capitalize text-slate-100 md:text-2xl">
-                    {category.title}
-                  </h3>
-                </div>
-              </div>
-            </Link>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {allProducts.map((product) => (
+            <ProductCard key={product.id} product={product} tag={'Bestseller'}/>
           ))}
         </div>
       </section>
       <section
         id="create-a-store-banner"
         aria-labelledby="create-a-store-banner-heading"
-        className="grid place-items-center gap-6 rounded-lg border bg-card px-6 py-16 text-center text-card-foreground shadow-sm"
+        className="grid place-items-center gap-6 rounded-lg border bg-card text-center text-card-foreground shadow-sm"
       >
-        <h2 className="text-2xl font-medium sm:text-3xl">
-          Do you want to sell your products on our website?
-        </h2>
-        <Link href="/dashboard/stores">
-          <div className={cn(buttonVariants())}>
-            Create a store
-            <span className="sr-only">Create a store</span>
-          </div>
-        </Link>
+        <div className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 px-6 py-16">
+          <h1 className="text-2xl font-medium sm:text-3xl">Print providers</h1>
+          <h2 className="py-[15px]">
+            Wearify is the largest print on demand network
+          </h2>
+          <Link href="/dashboard/stores">
+            <div className={cn(buttonVariants())}>
+              See print providers
+              <span className="sr-only">See print providers</span>
+            </div>
+          </Link>
+        </div>
+      </section>
+      <section
+        aria-labelledby=""
+        className="space-y-6"
+        id="categories">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+          {allCategory.map((category) => (
+            <Link
+              aria-label={`Go to ${category.name}`}
+              key={category.name}
+              href={`/categories/${category.name}`}
+            >
+              <div className="group relative h-[200px] overflow-hidden rounded-md">
+                <AspectRatio ratio={4 / 5}>
+                  <div className="absolute inset-0 z-10 bg-black/60 transition-colors group-hover:bg-black/70" />
+                  {/* <Image
+                    src={category.image}
+                    alt={category.name}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    fill
+                    className="object-cover transition-transform group-hover:scale-105"
+                    priority
+                  /> */}
+                </AspectRatio>
+                <div className="absolute inset-0 z-20 flex items-center justify-center">
+                  <h3 className="text-[30px] font-bold capitalize text-slate-100">
+                    {category.name}
+                  </h3>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </section>
       <section
         id="featured-products"
@@ -205,7 +167,7 @@ export default async function IndexPage() {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {allProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} tag={''}/>
           ))}
         </div>
       </section>
@@ -248,7 +210,7 @@ export default async function IndexPage() {
         aria-labelledby="random-subcategories-heading"
         className="flex flex-wrap items-center justify-center gap-4 pb-4"
       >
-        {productCategories[
+        {productCategories && productCategories[
           Math.floor(Math.random() * productCategories.length)
         ]?.subcategories.map((subcategory) => (
           <Link
