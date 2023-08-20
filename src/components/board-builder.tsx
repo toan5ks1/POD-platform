@@ -262,7 +262,7 @@ export function BoardBuilder({
             isAddedToCart={cartItems
               .map((item) => item.productId)
               .includes(product.id)}
-            onSwitch={() => addToCart(product)}
+            onSwitch={() => addToCart(product)} tag={""}
           />
         ))}
       </div>

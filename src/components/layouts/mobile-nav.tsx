@@ -54,7 +54,7 @@ export function MobileNav({ mainNavItems, sidebarNavItems }: MobileNavProps) {
           <div className="pl-1 pr-7">
             <Accordion type="single" collapsible className="w-full">
               {mainNavItems?.map((item, index) => (
-                <AccordionItem value={item.title} key={index}>
+                <AccordionItem value={item.title as string} key={index}>
                   <AccordionTrigger className="text-sm capitalize">
                     {item.title}
                   </AccordionTrigger>

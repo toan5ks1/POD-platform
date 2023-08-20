@@ -6,6 +6,7 @@ import { Header } from "@/components/header"
 import { Products } from "@/components/products"
 import { Shell } from "@/components/shells/shell"
 import { getProductsAction } from "@/app/_actions/product"
+import { getCategoryAction } from "@/app/_actions/category"
 import { getStoresAction } from "@/app/_actions/store"
 
 // Running out of edge function execution units on vercel free plan
@@ -50,6 +51,12 @@ export default async function ProductsPage({
     price_range: typeof price_range === "string" ? price_range : null,
     store_ids: typeof store_ids === "string" ? store_ids : null,
   })
+
+  const categoryTransaction = await getCategoryAction({
+    limit: 10,
+    offset: 1,
+  })
+  
 
   const pageCount = Math.ceil(productsTransaction.total / limit)
 

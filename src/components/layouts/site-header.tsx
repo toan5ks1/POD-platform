@@ -20,12 +20,14 @@ import { Combobox } from "@/components/combobox"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/layouts/main-nav"
 import { MobileNav } from "@/components/layouts/mobile-nav"
+import { getCategoryAction } from "@/app/_actions/category"
 
 interface SiteHeaderProps {
   user: User | null
 }
 
 export function SiteHeader({ user }: SiteHeaderProps) {
+  
   const initials = `${user?.firstName?.charAt(0) ?? ""} ${
     user?.lastName?.charAt(0) ?? ""
   }`

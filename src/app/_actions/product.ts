@@ -111,7 +111,6 @@ export async function getProductsAction(
           storeIds.length ? inArray(products.storeId, storeIds) : undefined
         )
       )
-
     return {
       items,
       total: Number(total[0]?.count) ?? 0,

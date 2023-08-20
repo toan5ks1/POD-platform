@@ -30,6 +30,7 @@ export type Store = InferModel<typeof stores>
 
 export const storesRelations = relations(stores, ({ many }) => ({
   products: many(products),
+  resources: many(resources),
 }))
 
 export const products = mysqlTable("products", {
@@ -58,8 +59,61 @@ export const products = mysqlTable("products", {
 
 export type Product = InferModel<typeof products>
 
+export const resources = mysqlTable("resources", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 191 }).notNull(),
+  description: text("description"),
+  images: json("images").$type<StoredFile[] | null>().default(null),
+  category: int("category")
+    .notNull()
+    .default(0),
+  sizes: json("sizes").$type<Sizes[] | null>().default(null),
+  colors: json("colors").$type<Colors[] | null>().default(null),
+  subcategory: varchar("subcategory", { length: 191 }),
+  price: decimal("costPrice", { precision: 10, scale: 2 }).notNull().default("0"),
+  inventory: int("inventory").notNull().default(0),
+  supplier: int("supplierId").notNull().default(0),
+  rating: int("rating").notNull().default(0),
+  tags: json("tags").$type<string[] | null>().default(null),
+  createdAt: timestamp("createdAt").defaultNow(),
+})
+
+export type Resource = InferModel<typeof resources>
+
+export const category = mysqlTable("category", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 191 }).notNull(),
+  desc: text("desc"),
+  slug: text("slug"),
+  image: text("image"),
+  tags: json("tags").$type<string[] | null>().default(null),
+  createdAt: timestamp("created_at").defaultNow(),
+})
+
+export type Category = InferModel<typeof category>
+
+export const subcategory = mysqlTable("subcategory", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 191 }).notNull(),
+  desc: text("description"),
+  slug: text("slug"),
+  image: text("image"),
+  category: int("category"),
+  tags: json("tags").$type<string[] | null>().default(null),
+  createdAt: timestamp("created_at").defaultNow(),
+})
+
+
+
+export type Subcategory = InferModel<typeof subcategory>
+
+
 export const productsRelations = relations(products, ({ one }) => ({
   store: one(stores, { fields: [products.storeId], references: [stores.id] }),
+}))
+
+export const subcategoryRelations = relations(subcategory, ({ one }) => ({
+  category: one(category, { fields: [subcategory.category], references: [category.id] }),
 }))
 
 export const suppliers = mysqlTable("suppliers", {
@@ -77,51 +131,6 @@ export type Suppliers = InferModel<typeof suppliers>
 
 export const suppliersRelations = relations(suppliers, ({ many }) => ({
   resources: many(resources),
-}))
-
-export const resources = mysqlTable("resources", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 191 }).notNull(),
-  description: text("description"),
-  images: json("images").$type<StoredFile[] | null>().default(null),
-  models: json("models").$type<StoredFile[] | null>().default(null),
-  category: mysqlEnum("category", [
-    "skateboards",
-    "clothing",
-    "shoes",
-    "accessories",
-  ])
-    .notNull()
-    .default("skateboards"),
-  subcategory: varchar("subcategory", { length: 191 }),
-  sizes: json("sizes").$type<Sizes[] | null>().default(null),
-  colors: json("colors").$type<Colors[] | null>().default(null),
-  active: boolean("active").notNull().default(true),
-  printAreas: mysqlEnum("printAreas", [
-    "Alloverprint",
-    "Backside",
-    "Frontside",
-    "Backendfront",
-    "Sleeveleft",
-    "Sleeveright",
-  ])
-    .notNull()
-    .default("Frontside"),
-  price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
-  inventory: int("inventory").notNull().default(0),
-  rating: int("rating").notNull().default(0),
-  tags: json("tags").$type<string[] | null>().default(null),
-  supplierId: int("supplierId").notNull(),
-  createdAt: timestamp("createdAt").defaultNow(),
-})
-
-export type Resources = InferModel<typeof resources>
-
-export const resourcesRelations = relations(resources, ({ one }) => ({
-  suppliers: one(suppliers, {
-    fields: [resources.supplierId],
-    references: [suppliers.id],
-  }),
 }))
 
 export const carts = mysqlTable("carts", {

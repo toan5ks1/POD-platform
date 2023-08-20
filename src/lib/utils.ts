@@ -53,6 +53,9 @@ export function unslugify(str: string) {
 }
 
 export function toTitleCase(str: string) {
+  if (typeof str !== 'string') {
+    return str;
+  }
   return str.replace(
     /\w\S*/g,
     (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
@@ -107,6 +110,11 @@ export function catchClerkError(err: unknown) {
   }
 }
 
-export function isMacOs(){
+export function isMacOs() {
+  // if (process.browser) {
+  //   return window.navigator.userAgent.includes('Mac');
+  // }
+  // return false;
   return window.navigator.userAgent.includes('Mac');
 }
+
