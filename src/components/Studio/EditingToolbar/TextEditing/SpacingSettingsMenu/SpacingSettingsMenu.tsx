@@ -23,17 +23,15 @@ const SpacingSettingsMenu = ({ id, letterSpacing, lineHeight }: Props) => {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <TooltipContainer tooltip="Spacing">
-            <Button aria-label="Sort products" size="sm">
-              <Icons.spacing className="ml-2 h-4 w-4" aria-hidden="true" />
-            </Button>
-          </TooltipContainer>
+          <Button aria-label="Sort products" size="sm">
+            <Icons.spacing className="h-4 w-4" aria-hidden="true" />
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-48 p-6">
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem>
             <LetterSpacingSettings id={id} letterSpacing={letterSpacing} />
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem>
             <LineSpacingSettings id={id} lineHeight={lineHeight} />
           </DropdownMenuItem>
         </DropdownMenuContent>
